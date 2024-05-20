@@ -1,0 +1,163 @@
+<header id="header" class="alt">
+  <a href="index.html" class="logo"><strong>SHALOM</strong> <span></span></a>
+  <nav>
+    <a href="#menu">Menu</a>
+  </nav>
+</header>
+
+<!-- Menu -->
+<nav id="menu">
+  <ul class="links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="landing.html">Landing</a></li>
+    <li><a href="generic.html">Generic</a></li>
+    <li><a href="elements.html">Elements</a></li>
+  </ul>
+  <ul class="actions stacked">
+    <li><a href="#" class="button primary fit">Get Started</a></li>
+    <li><a href="#" class="button fit">Log In</a></li>
+  </ul>
+</nav>
+<script>
+  var $window = $(window),
+    $body = $("body"),
+    $wrapper = $("#wrapper"),
+    $header = $("#header"),
+    $banner = $("#banner");
+
+  // Breakpoints.
+  breakpoints({
+    xlarge: ["1281px", "1680px"],
+    large: ["981px", "1280px"],
+    medium: ["737px", "980px"],
+    small: ["481px", "736px"],
+    xsmall: ["361px", "480px"],
+    xxsmall: [null, "360px"],
+  });
+  $(document).ready(function () {
+    // Header.
+    window.addEventListener("scroll", () => {
+      if ($banner.length > 0 && $header.hasClass("alt")) {
+        $window.on("resize", function () {
+          $window.trigger("scroll");
+        });
+
+        $banner.scrollex({
+          bottom: $header.height() + 10,
+          terminate: function () {
+            $header.removeClass("alt");
+          },
+          enter: function () {
+            $header.addClass("alt");
+          },
+          leave: function () {
+            $header.removeClass("alt");
+            $header.addClass("reveal");
+          },
+        });
+
+        window.setTimeout(function () {
+          $window.triggerHandler("scroll");
+        }, 100);
+
+        $window.on("load", function () {
+          $banner.scrollex({
+            bottom: $header.height() + 10,
+            terminate: function () {
+              $header.removeClass("alt");
+            },
+            enter: function () {
+              $header.addClass("alt");
+            },
+            leave: function () {
+              $header.removeClass("alt");
+              $header.addClass("reveal");
+            },
+          });
+
+          window.setTimeout(function () {
+            $window.triggerHandler("scroll");
+          }, 100);
+        });
+      }
+    });
+
+    // Menu.
+    var $menu = $("#menu"),
+      $menuInner;
+
+    $menu.wrapInner('<div class="inner"></div>');
+    $menuInner = $menu.children(".inner");
+    $menu._locked = false;
+
+    $menu._lock = function () {
+      if ($menu._locked) return false;
+
+      $menu._locked = true;
+
+      window.setTimeout(function () {
+        $menu._locked = false;
+      }, 350);
+
+      return true;
+    };
+
+    $menu._show = function () {
+      if ($menu._lock()) $body.addClass("is-menu-visible");
+    };
+
+    $menu._hide = function () {
+      if ($menu._lock()) $body.removeClass("is-menu-visible");
+    };
+
+    $menu._toggle = function () {
+      if ($menu._lock()) $body.toggleClass("is-menu-visible");
+    };
+
+    $menuInner
+      .on("click", function (event) {
+        event.stopPropagation();
+      })
+      .on("click", "a", function (event) {
+        var href = $(this).attr("href");
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Hide.
+        $menu._hide();
+
+        // Redirect.
+        window.setTimeout(function () {
+          window.location.href = href;
+        }, 250);
+      });
+
+    $menu
+      .appendTo($body)
+      .on("click", function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        $body.removeClass("is-menu-visible");
+      })
+      .append('<a class="close" href="#menu">Close</a>');
+
+    $body
+      .on("click", 'a[href="#menu"]', function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        // Toggle.
+        $menu._toggle();
+      })
+      .on("click", function (event) {
+        // Hide.
+        $menu._hide();
+      })
+      .on("keydown", function (event) {
+        // Hide on escape.
+        if (event.keyCode == 27) $menu._hide();
+      });
+  });
+</script>

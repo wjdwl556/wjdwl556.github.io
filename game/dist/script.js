@@ -8,6 +8,7 @@ const CONSTANTS = {
   assetPath: "https://s3-us-west-2.amazonaws.com/s.cdpn.io/184729",
 };
 
+//이미지 부분
 const ASSETS = {
   head: `${CONSTANTS.assetPath}/head.svg`,
   waiting: `${CONSTANTS.assetPath}/hand.svg`,
@@ -30,6 +31,7 @@ Object.keys(ASSETS).forEach((key) => {
 // Hover state - https://dev.to/spaciecat/hover-states-with-react-hooks-4023
 const useHover = () => {
   const ref = useRef();
+
   const [hovered, setHovered] = useState(false);
 
   const enter = () => setHovered(true);
@@ -152,7 +154,7 @@ class App extends React.Component {
         React.createElement(
           "p",
           null,
-          "어떤   방법을 써도 상관없어 버튼을 누르기만 하면 돼 그럼 화이팅이야!"
+          "어떤 방법을 써도 상관없어 버튼을 누르기만 하면 돼 그럼 화이팅이야!"
         ) /*#__PURE__*/,
 
         React.createElement(
