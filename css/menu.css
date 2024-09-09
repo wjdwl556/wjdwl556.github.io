@@ -104,6 +104,7 @@
 .swal2-title,
 .swal2-styled {
   font-family: "Sunflower", sans-serif !important;
+  font-size: 33px;
 }
 .swal2-styled {
   width: 70px !important;
@@ -111,4 +112,7 @@
 }
 .swal2-popup {
   width: 25rem;
+}
+.swal2-html-container {
+  font-family: "Sunflower", sans-serif !important;
 }
