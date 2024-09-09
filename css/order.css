@@ -1,8 +1,9 @@
 .main_div {
-  background-color: #f5d78f;
+  background-color: #eae3d3;
 }
 .coffee_logo {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #c4c4c4;
+  font-size: 50px;
 }
 .f-small {
   font-size: 80%;
@@ -101,14 +102,31 @@
   transform: scale(1.01);
   transition-duration: 0.5s;
 }
-.swal2-title,
-.swal2-styled {
-  font-family: "Sunflower", sans-serif !important;
+.border-color {
+  border-color: #c4c4c4;
 }
-.swal2-styled {
-  width: 70px !important;
-  padding: 3px !important;
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  border-color: #c4c4c4;
+}
+
+.complete_btn {
+  width: 80px;
+  height: 40px;
+  background-color: #b37846;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.complete_btn:hover {
+  background-color: #aa853a;
 }
 .swal2-popup {
-  width: 25rem;
+  font-family: "Sunflower", sans-serif;
 }

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>~</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+      integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Black+And+White+Picture&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
+      integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/project.css" rel="stylesheet" />
+    <link href="/css/order.css" rel="stylesheet" />
+  </head>
+
+  <body class="main_div">
+    <!-- End footer -->
+
+    <div class="container main_container">
+      <div class="coffee_logo text-center mb-3">Order Sheet</div>
+
+      <div class="liq_order"></div>
+
+      <div class="order_list">
+        <div class="container row" style="max-width: 950px">
+          <div class="order_wrap"></div>
+          <div
+            class="btn_wrap my-2 d-flex align-items-center justify-content-end px-0"
+          >
+            <div class="me-3">
+              누적 판매금액:<span class="total_price ms-2">0</span>원
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/scripts.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"
+      integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script
+      type="text/javascript"
+      src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"
+    ></script>
+    <script src="js/project.js"></script>
+  </body>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+    import {
+      getDatabase,
+      ref,
+      get,
+      set,
+      onValue,
+    } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDg0M1zak7ZdIBp6uoFgiSwlyfdXoo5zvk",
+      authDomain: "menu-5ecc1.firebaseapp.com",
+      projectId: "menu-5ecc1",
+      storageBucket: "menu-5ecc1.appspot.com",
+      messagingSenderId: "411891444872",
+      appId: "1:411891444872:web:d3bc08ce89d89ee3ee433d",
+      measurementId: "G-9KG4DS84TQ",
+      databaseURL: "https://menu-5ecc1-default-rtdb.firebaseio.com/",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    // Initialize Realtime Database and get a reference to the service
+    const database = getDatabase(app);
+    const menuRef = ref(database, "orders");
+
+    onValue(menuRef, (snapshot) => {
+      let sellPrice = 0;
+      const data = snapshot.val();
+      if (data) {
+        // 주문 ID에 해당하는 모든 데이터를 순회
+        for (const orderId in data) {
+          if (data.hasOwnProperty(orderId)) {
+            console.log("orderId", orderId);
+
+            const orderItems = data[orderId]; // 각각의 주문 데이터 (배열)
+            let tDstr = ``;
+            let isComplete = false; // 모든 항목의 완료 상태를 확인하는 변수
+
+            // 각 주문 아이템을 순회하며 출력
+            orderItems.forEach((orderItem) => {
+              console.log("orderItem", orderItem);
+
+              // 만약 하나라도 complete가 true라면 해당 주문을 처리하지 않음
+              if (orderItem.complete) {
+                isComplete = true;
+
+                sellPrice += orderItem.money * orderItem.count;
+              }
+
+              tDstr += `
+                    <tr>
+                        <td style="width: 100px">
+                            <img
+                            style="width: 100px; height: 100px"
+                            src="/images/menu/${orderItem.name}.jpg"
+                            alt=""
+                            />
+                        </td>
+                        <td class="text-center h-100 align-middle">${orderItem.name}</td>
+                        <td class="text-center align-middle">${orderItem.count}</td>
+                    </tr>
+            `;
+            });
+
+            // 모든 아이템이 완료되지 않았을 때만 HTML을 추가
+            if (!isComplete) {
+              let str = `
+                    <div class="text-center mb-3">
+                      주문번호 : <span class="order-num">${orderId}</span>
+                      <table class="table">
+                          <thead>
+                              <tr>
+                              <td></td>
+                              <td class="text-center">Menu</td>
+                              <td class="text-center">Quantity</td>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              ${tDstr}
+                          </tbody>
+                      </table>
+                      <div class="btn_wrap text-end">
+                      <div data-num=${orderId} class="complete_btn ms-auto">완료</div>
+                      </div>
+                  </div>
+          `;
+
+              $(".liq_order").append(str);
+            } else {
+              $(".total_price").html(addComma(sellPrice));
+            }
+          }
+        }
+      } else {
+        console.log("주문 데이터가 없습니다.");
+      }
+    });
+
+    $(document).on("click", ".complete_btn", function () {
+      const orderId = $(this).data("num"); // 클릭된 버튼에서 orderId를 가져옴
+
+      // Firebase에서 해당 주문 데이터를 업데이트
+      const orderRef = ref(database, "orders/" + orderId);
+
+      if (confirm("다 만들었니 애들아?")) {
+        // 주문 데이터를 가져와 complete 필드를 업데이트
+        get(orderRef)
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const orderItems = snapshot.val(); // 주문 아이템 배열
+
+              // 각 아이템의 complete 필드를 true로 설정
+              orderItems.forEach((orderItem, index) => {
+                orderItems[index].complete = true;
+              });
+
+              // 업데이트된 주문 데이터를 Firebase에 저장
+              set(orderRef, orderItems)
+                .then(() => {
+                  alert("주문이 완료 처리되었습니다.");
+                  location.reload(); // 페이지를 새로고침하여 변경 사항을 반영
+                })
+                .catch((error) => {
+                  console.error("주문 완료 처리 실패: ", error);
+                  alert("주문 완료 처리에 실패했습니다.");
+                });
+            } else {
+              console.log("해당 주문이 존재하지 않습니다.");
+            }
+          })
+          .catch((error) => {
+            console.error("데이터 가져오기 실패: ", error);
+          });
+      }
+    });
+
+    //콤마함수
+    function addComma(number) {
+      return number.toLocaleString(); // 자동으로 천 단위마다 콤마 추가
+    }
+  </script>
+</html>
