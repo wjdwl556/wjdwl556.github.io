@@ -42,6 +42,8 @@
     <link href="/css/styles.css" rel="stylesheet" />
     <link href="/css/project.css" rel="stylesheet" />
     <link href="/css/order.css" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   </head>
 
   <body class="main_div">
@@ -121,11 +123,27 @@
     const database = getDatabase(app);
     const menuRef = ref(database, "orders");
 
+    const sound = new Audio("/church/sound/sound.wav");
+
+    let isButtonClicked = false; // 버튼이 클릭되었는지 여부를 추적하는 플래그
+
     onValue(menuRef, (snapshot) => {
       $(".liq_order").html("");
       let sellPrice = 0;
       const data = snapshot.val();
+
+      // 이전 데이터와 비교하기 위한 변수
+      let previousData = {};
+
       if (data) {
+        // complete_btn이 클릭되지 않은 경우에만 소리를 재생
+        if (
+          !isButtonClicked &&
+          JSON.stringify(previousData) !== JSON.stringify(data)
+        ) {
+          sound.play(); // 소리 재생
+        }
+
         // 주문 ID에 해당하는 모든 데이터를 순회
         for (const orderId in data) {
           if (data.hasOwnProperty(orderId)) {
@@ -142,48 +160,47 @@
               // 만약 하나라도 complete가 true라면 해당 주문을 처리하지 않음
               if (orderItem.complete) {
                 isComplete = true;
-
                 sellPrice += orderItem.money * orderItem.count;
               }
 
               tDstr += `
-                    <tr>
-                        <td style="width: 100px">
-                            <img
-                            style="width: 100px; height: 100px"
-                            src="/images/menu/${orderItem.name}.jpg"
-                            alt=""
-                            />
-                        </td>
-                        <td class="text-center h-100 align-middle w-75">${orderItem.name}</td>
-                        <td class="text-center align-middle">${orderItem.count}</td>
-                    </tr>
-            `;
+              <tr>
+                  <td style="width: 100px">
+                      <img
+                      style="width: 100px; height: 100px"
+                      src="/images/menu/${orderItem.name}.jpg"
+                      alt=""
+                      />
+                  </td>
+                  <td class="text-center h-100 align-middle w-75">${orderItem.name}</td>
+                  <td class="text-center align-middle">${orderItem.count}</td>
+              </tr>
+          `;
             });
 
             // 모든 아이템이 완료되지 않았을 때만 HTML을 추가
             if (!isComplete) {
               let str = `
-                    <div class="text-center mb-3">
-                      주문번호 : <span class="order-num">${keepLastFourChars(
-                        orderId
-                      )}</span>
-                      <table class="table">
-                          <thead>
-                              <tr>
-                              <td></td>
-                              <td class="text-center">Menu</td>
-                              <td class="text-center">Quantity</td>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              ${tDstr}
-                          </tbody>
-                      </table>
-                      <div class="btn_wrap text-end">
-                      <div data-num=${orderId} class="complete_btn ms-auto">완료</div>
-                      </div>
-                  </div>
+              <div class="text-center mb-3">
+                주문번호 : <span class="order-num">${keepLastFourChars(
+                  orderId
+                )}</span>
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <td></td>
+                        <td class="text-center">Menu</td>
+                        <td class="text-center">Quantity</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tDstr}
+                    </tbody>
+                </table>
+                <div class="btn_wrap text-end">
+                <div data-num=${orderId} class="complete_btn ms-auto">완료</div>
+                </div>
+            </div>
           `;
 
               $(".liq_order").append(str);
@@ -192,49 +209,65 @@
             }
           }
         }
+
+        // 데이터 업데이트 후 이전 데이터에 현재 데이터를 저장
+        previousData = data;
       } else {
         console.log("주문 데이터가 없습니다.");
       }
+
+      // complete_btn이 클릭된 이후 플래그 초기화
+      isButtonClicked = false;
     });
 
     $(document).on("click", ".complete_btn", function () {
       const orderId = $(this).data("num"); // 클릭된 버튼에서 orderId를 가져옴
 
+      // 버튼이 클릭되었음을 기록
+      isButtonClicked = true;
+
       // Firebase에서 해당 주문 데이터를 업데이트
       const orderRef = ref(database, "orders/" + orderId);
 
-      if (confirm("다 만들었니 애들아?")) {
-        // 주문 데이터를 가져와 complete 필드를 업데이트
-        get(orderRef)
-          .then((snapshot) => {
-            if (snapshot.exists()) {
-              const orderItems = snapshot.val(); // 주문 아이템 배열
+      Swal.fire({
+        title: "다 만들었니 애들아?",
+        imageUrl: "/images/menu/jh.jpg",
+        imageWidth: 400,
+        imageHeight: 400,
+        imageAlt: "Custom image",
+        confirmButtonText: "확인",
+      }).then((result) => {
+        if (result.value) {
+          get(orderRef)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                const orderItems = snapshot.val(); // 주문 아이템 배열
 
-              // 각 아이템의 complete 필드를 true로 설정
-              orderItems.forEach((orderItem, index) => {
-                orderItems[index].complete = true;
-              });
-
-              // 업데이트된 주문 데이터를 Firebase에 저장
-              set(orderRef, orderItems)
-                .then(() => {
-                  alert("주문이 완료 처리되었습니다.");
-                  location.reload(); // 페이지를 새로고침하여 변경 사항을 반영
-                })
-                .catch((error) => {
-                  console.error("주문 완료 처리 실패: ", error);
-                  alert("주문 완료 처리에 실패했습니다.");
+                // 각 아이템의 complete 필드를 true로 설정
+                orderItems.forEach((orderItem, index) => {
+                  orderItems[index].complete = true;
                 });
-            } else {
-              console.log("해당 주문이 존재하지 않습니다.");
-            }
-          })
-          .catch((error) => {
-            console.error("데이터 가져오기 실패: ", error);
-          });
-      }
-    });
 
+                // 업데이트된 주문 데이터를 Firebase에 저장
+                set(orderRef, orderItems)
+                  .then(() => {
+                    alert("주문이 완료 처리되었습니다.");
+                    //location.reload(); // 페이지를 새로고침하여 변경 사항을 반영
+                  })
+                  .catch((error) => {
+                    console.error("주문 완료 처리 실패: ", error);
+                    alert("주문 완료 처리에 실패했습니다.");
+                  });
+              } else {
+                console.log("해당 주문이 존재하지 않습니다.");
+              }
+            })
+            .catch((error) => {
+              console.error("데이터 가져오기 실패: ", error);
+            });
+        }
+      });
+    });
     //콤마함수
     function addComma(number) {
       return number.toLocaleString(); // 자동으로 천 단위마다 콤마 추가
@@ -248,5 +281,20 @@
         return str.slice(-4);
       }
     }
+
+    var AudioContext;
+    var audioContext;
+
+    window.onload = function () {
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then(() => {
+          AudioContext = window.AudioContext || window.webkitAudioContext;
+          audioContext = new AudioContext();
+        })
+        .catch((e) => {
+          console.error(`Audio permissions denied: ${e}`);
+        });
+    };
   </script>
 </html>
