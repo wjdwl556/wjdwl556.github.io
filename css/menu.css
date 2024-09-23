@@ -116,3 +116,19 @@
 .swal2-html-container {
   font-family: "Sunflower", sans-serif !important;
 }
+
+.img-container {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* 정사각형을 유지하기 위한 패딩 비율 */
+  overflow: hidden; /* 이미지가 컨테이너를 넘지 않도록 설정 */
+}
+
+.img-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지가 비율을 유지하며 컨테이너에 맞게 채워짐 */
+}

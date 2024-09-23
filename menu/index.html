@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>미니카페 메뉴</title>
+    <title>평강교회 바자회 메뉴</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link
@@ -52,72 +52,19 @@
     <link href="/css/project.css" rel="stylesheet" />
     <link href="/css/menu.css" rel="stylesheet" />
   </head>
-
   <body class="main_div">
     <!-- End footer -->
-
     <div class="container main_container">
       <div
         class="coffee_logo d-flex align-items-center justify-content-between mb-3"
       >
-        <div>CAFE</div>
-        <img style="width: 10%" src="/images/menu/logo.png" alt="" />
-        <div>MENU</div>
+        <div class="cafe_text">cafe</div>
+        <img style="width: 10%" src="/images/menu/cafe/logo.png" alt="" />
+        <div class="cafe_text">menu</div>
       </div>
-
       <div class="menu_list">
-        <div class="row text-center">
-          <div class="col-4 mb-2 menu_div">
-            <img class="w-100 mb-2" src="/images/menu/아메리카노.jpg" alt="" />
-            <div class="name">아메리카노</div>
-            <div class="text-end money f-small">3,000</div>
-          </div>
-          <div class="col-4 mb-2 menu_div">
-            <img class="w-100 mb-2" src="/images/menu/카페라뗴.jpg" alt="" />
-            <div class="name">카페라뗴</div>
-            <div class="text-end money f-small">2,000</div>
-          </div>
-          <div class="col-4 mb-2 menu_div">
-            <img class="w-100 mb-2" src="/images/menu/거품커피.jpg" alt="" />
-            <div class="name">거품커피</div>
-            <div class="text-end money f-small">3,000</div>
-          </div>
-          <div class="col-4 mb-2 menu_div">
-            <img class="w-100 mb-2" src="/images/menu/믹스커피.jpg" alt="" />
-            <div class="name">믹스커피</div>
-            <div class="text-end money f-small">3,000</div>
-          </div>
-          <div class="col-4 mb-2 menu_div">
-            <img class="w-100 mb-2" src="/images/menu/음료1.jpg" alt="" />
-            <div class="name">음료1</div>
-            <div class="text-end money f-small">3,000</div>
-          </div>
-          <div class="col-4 mb-2 menu_div">
-            <img
-              class="w-100 mb-2"
-              src="/images/menu/이름긴거커피이름뭐일지.jpg"
-              alt=""
-            />
-            <div class="name">이름긴거커피이름뭐일지</div>
-            <div class="text-end money f-small">3,000</div>
-          </div>
-          <div class="col-4 mb-2 menu_div">
-            <img
-              class="w-100 mb-2"
-              src="/images/menu/애플히비스커스티.jpg"
-              alt=""
-            />
-            <div class="name">애플히비스커스티</div>
-            <div class="text-end money f-small">3,000</div>
-          </div>
-          <div class="col-4 mb-2 menu_div">
-            <img class="w-100 mb-2" src="/images/menu/유자차.jpg" alt="" />
-            <div class="name">유자차</div>
-            <div class="text-end money f-small">3,000</div>
-          </div>
-        </div>
+        <div class="row text-center menu_draw"></div>
       </div>
-
       <div class="order_list">
         <div class="container row" style="max-width: 950px">
           <div class="order_wrap"></div>
@@ -164,6 +111,7 @@
       getDatabase,
       ref,
       set,
+      get,
       push,
     } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 
@@ -184,19 +132,137 @@
     const analytics = getAnalytics(app);
     const database = getDatabase(app);
 
-    console.log("ㅇㅇ", database);
+    let urlParams = new URLSearchParams(window.location.search);
+
+    // 각 파라미터 값 가져오기
+    let typeValue = urlParams.get("type"); //type
+
+    let menus = {
+      menu1: {
+        name: "menu1",
+        items: [
+          {
+            name: "메뉴1-1",
+            money: "3000",
+          },
+          {
+            name: "메뉴1-2",
+            money: "1000",
+          },
+          {
+            name: "메뉴1-3",
+            money: "2000",
+          },
+          {
+            name: "메뉴1-4",
+            money: "1000",
+          },
+          {
+            name: "메뉴1-5",
+            money: "1500",
+          },
+          {
+            name: "메뉴1-6",
+            money: "1300",
+          },
+        ],
+      },
+      menu2: {
+        name: "menu2",
+        items: [
+          {
+            name: "메뉴2-1",
+            money: "3000",
+          },
+          {
+            name: "메뉴2-2",
+            money: "1000",
+          },
+          {
+            name: "메뉴2-3",
+            money: "2000",
+          },
+          {
+            name: "메뉴2-4",
+            money: "1000",
+          },
+          {
+            name: "메뉴2-5",
+            money: "1500",
+          },
+          {
+            name: "메뉴2-6",
+            money: "1300",
+          },
+        ],
+      },
+      // 필요하다면 더 많은 메뉴 추가 가능
+      cafe: {
+        name: "cafe",
+        items: [
+          {
+            name: "아메리카노",
+            money: "3000",
+          },
+          {
+            name: "거품커피",
+            money: "1000",
+          },
+          {
+            name: "믹스커피",
+            money: "2000",
+          },
+          {
+            name: "애플히비스커스티",
+            money: "1000",
+          },
+          {
+            name: "유자차",
+            money: "1500",
+          },
+          {
+            name: "음료1",
+            money: "1300",
+          },
+        ],
+      },
+    };
+
+    let selectedMenu = menus[typeValue];
+    console.log("selectedMenu", selectedMenu.name);
+
+    if (selectedMenu.name != "cafe") {
+      $(".cafe_text").addClass("d-none");
+      $(".coffee_logo").removeClass("justify-content-between");
+      $(".coffee_logo").addClass("justify-content-center");
+    }
+
+    $.each(selectedMenu.items, function (i, v) {
+      let str = `
+        <div class="col-4 mb-2 menu_div">
+            <div class="img-container">
+                <img class="w-100 h-100 mb-2" src="/images/menu/${
+                  selectedMenu.name
+                }/${v.name}.jpg" alt="" />
+            </div>
+            <div class="name">${v.name}</div>
+            <div class="text-end money f-small">${addComma(v.money * 1)}</div>
+        </div>
+      
+      `;
+
+      $(".menu_draw").append(str);
+    });
 
     $(".menu_div").click(function () {
       // name과 money 값을 가져오기
       var menuName = $(this).find(".name").text();
       var menuMoney = $(this).find(".money").text();
-
       // money에서 쉼표를 제거하고 숫자만 추출
       var cleanMoney = menuMoney.replace(/,/g, "");
       // 결과 출력 (예: 콘솔에 출력)
       console.log("메뉴 이름: " + menuName);
       console.log("가격: " + cleanMoney);
-
       Swal.fire({
         title: "메뉴를 추가하시겠습니까?",
         imageUrl: "https://unsplash.it/400/200",
@@ -207,30 +273,30 @@
       }).then((result) => {
         if (result.value) {
           let str = `
-          <div class="order_div ${menuName}_menu d-flex align-center justify-content-between pt-3 mb-2">
-            <div class="d-flex align-center justify-content-center">
-              <div class="name me-4 d-flex align-items-center">${menuName}</div>
-              <div>
-                <input
-                  min="1"
-                  style="width: 70px; height: 40px"
-                  type="number"
-                  value="1"
-                  class="p-1 text-sm text-center count"
-                />
-              </div>
-            </div>
-            <div class="d-flex"></div>
-            <div class="d-flex align-items-center money">
-              <div class="me-1" data-price="${cleanMoney}">${addComma(
+              <div class="order_div ${menuName}_menu d-flex align-center justify-content-between pt-3 mb-2">
+                <div class="d-flex align-center justify-content-center">
+                  <div class="name me-4 d-flex align-items-center">${menuName}</div>
+                  <div>
+                    <input
+                      min="1"
+                      style="width: 70px; height: 40px"
+                      type="number"
+                      value="1"
+                      class="p-1 text-sm text-center count"
+                    />
+                  </div>
+                </div>
+                <div class="d-flex"></div>
+                <div class="d-flex align-items-center money">
+                  <div class="me-1" data-price="${cleanMoney}">${addComma(
             cleanMoney * 1
           )}</div> 원
-            </div>
-            <div class="order_delete_btn">
-              <i class="fa-solid fa-xmark"></i>
-            </div>
-          </div>
-        `;
+                </div>
+                <div class="order_delete_btn">
+                  <i class="fa-solid fa-xmark"></i>
+                </div>
+              </div>
+            `;
           if ($(".order_div").hasClass(`${menuName}_menu`)) {
             Swal.fire("이미 추가된상품입니다!", "", "warning");
           } else {
@@ -269,7 +335,6 @@
       adjustMarginBottom();
       updateTotalPrice();
     });
-
     function updateTotalPrice() {
       let totalPrice = 0;
       $(".order_div").each(function () {
@@ -279,6 +344,10 @@
       });
       $(".total_price ").html(totalPrice.toLocaleString());
     }
+
+    $(document).on("input", ".count", function () {
+      let percent = $(this).closest(".onrdeR_div");
+    });
 
     $(document).on("input", ".count", function () {
       let parent = $(this).closest(".order_div");
@@ -292,6 +361,8 @@
     });
 
     let orderArr = [];
+
+    let menuNumber = 0;
 
     $(".order_btn").click(function () {
       Swal.fire({
@@ -314,6 +385,7 @@
                 name: name,
                 count: count,
                 money: money,
+                number: menuNumber,
                 complete: false,
               };
               orderArr.push(obj);
@@ -330,9 +402,36 @@
       });
     });
 
+    const orderRef = ref(database, typeValue);
+
+    // 데이터 가져오기
+    get(orderRef)
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const ordersData = snapshot.val();
+
+          console.log("cc", ordersData.length);
+
+          const numberOfOrders = Object.keys(ordersData).length; // 데이터의 개수를 셈
+          console.log(`Number of orders: ${numberOfOrders}`);
+          menuNumber = numberOfOrders * 1 + 1;
+
+          if (menuNumber <= 0) {
+            menuNumber = 1;
+          }
+        } else {
+          console.log("No orders found.");
+          menuNumber = 1;
+          console.log("cc", menuNumber);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+
     function sendMenu() {
       const orderData = orderArr;
-      const orderRef = ref(database, "orders");
+      const orderRef = ref(database, typeValue);
 
       const newOrderRef = push(orderRef); // 새로운 주문을 추가
 
@@ -340,7 +439,7 @@
         .then(() => {
           Swal.fire({
             title: "주문이 완료되었습니다.",
-            text: "감사합니다~!",
+            html: `<div>감사합니다~! <br> 주문번호는 <strong>${menuNumber}</strong>번 입니다</div>`,
             icon: "success",
             confirmButtonText: "확인",
           }).then((result) => {

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>미니카페 주문서</title>
+    <title>평강교회 바자회 주문서</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link
@@ -119,18 +119,27 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
 
+    let urlParams = new URLSearchParams(window.location.search);
+
+    // 각 파라미터 값 가져오기
+    let typeValue = urlParams.get("type"); //type
+    console.log(";typeValue", typeValue);
+
     // Initialize Realtime Database and get a reference to the service
     const database = getDatabase(app);
-    const menuRef = ref(database, "orders");
+    const menuRef = ref(database, typeValue);
 
     const sound = new Audio("/church/sound/sound.wav");
 
     let isButtonClicked = false; // 버튼이 클릭되었는지 여부를 추적하는 플래그
-
+    let menuNumber = 0;
     onValue(menuRef, (snapshot) => {
       $(".liq_order").html("");
       let sellPrice = 0;
       const data = snapshot.val();
+
+      console.log("cc", Object.keys(data).length);
+      menuNumber = Object.keys(data).length * 1 + 1;
 
       // 이전 데이터와 비교하기 위한 변수
       let previousData = {};
@@ -147,16 +156,13 @@
         // 주문 ID에 해당하는 모든 데이터를 순회
         for (const orderId in data) {
           if (data.hasOwnProperty(orderId)) {
-            console.log("orderId", orderId);
-
             const orderItems = data[orderId]; // 각각의 주문 데이터 (배열)
             let tDstr = ``;
             let isComplete = false; // 모든 항목의 완료 상태를 확인하는 변수
+            console.log("orderItems", orderItems);
 
             // 각 주문 아이템을 순회하며 출력
             orderItems.forEach((orderItem) => {
-              console.log("orderItem", orderItem);
-
               // 만약 하나라도 complete가 true라면 해당 주문을 처리하지 않음
               if (orderItem.complete) {
                 isComplete = true;
@@ -168,7 +174,7 @@
                   <td style="width: 100px">
                       <img
                       style="width: 100px; height: 100px"
-                      src="/images/menu/${orderItem.name}.jpg"
+                      src="/images/menu/${typeValue}/${orderItem.name}.jpg"
                       alt=""
                       />
                   </td>
@@ -178,19 +184,19 @@
           `;
             });
 
+            menuNumber++;
+
             // 모든 아이템이 완료되지 않았을 때만 HTML을 추가
             if (!isComplete) {
               let str = `
               <div class="text-center mb-3">
-                주문번호 : <span class="order-num">${keepLastFourChars(
-                  orderId
-                )}</span>
+                주문번호 : <span class="order-num 1">${orderItems[0].number}</span>
                 <table class="table">
                     <thead>
                         <tr>
                         <td></td>
-                        <td class="text-center">Menu</td>
-                        <td class="text-center">Quantity</td>
+                        <td class="text-center">메뉴</td>
+                        <td class="text-center">수량</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -203,7 +209,7 @@
             </div>
           `;
 
-              $(".liq_order").append(str);
+              $(".liq_order").prepend(str);
             } else {
               $(".total_price").html(addComma(sellPrice));
             }
@@ -225,16 +231,10 @@
 
       // 버튼이 클릭되었음을 기록
       isButtonClicked = true;
-
       // Firebase에서 해당 주문 데이터를 업데이트
-      const orderRef = ref(database, "orders/" + orderId);
-
+      const orderRef = ref(database, "cafeorder/" + orderId);
       Swal.fire({
-        title: "다 만들었니 애들아?",
-        imageUrl: "/images/menu/jh.jpg",
-        imageWidth: 400,
-        imageHeight: 400,
-        imageAlt: "Custom image",
+        title: "완료 하시겠습니까?",
         confirmButtonText: "확인",
       }).then((result) => {
         if (result.value) {
@@ -268,6 +268,7 @@
         }
       });
     });
+
     //콤마함수
     function addComma(number) {
       return number.toLocaleString(); // 자동으로 천 단위마다 콤마 추가
@@ -282,6 +283,7 @@
       }
     }
 
+    //오디오 권한 체크
     var AudioContext;
     var audioContext;
 

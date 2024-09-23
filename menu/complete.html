@@ -48,7 +48,7 @@
     <!-- End footer -->
 
     <div class="container main_container">
-      <div class="coffee_logo text-center mb-3">Order Sheet</div>
+      <div class="coffee_logo text-center mb-3">누적 판매</div>
 
       <div class="liq_order"></div>
 
@@ -113,13 +113,20 @@
       databaseURL: "https://menu-5ecc1-default-rtdb.firebaseio.com/",
     };
 
+    let urlParams = new URLSearchParams(window.location.search);
+
+    // 각 파라미터 값 가져오기
+    let typeValue = urlParams.get("type"); //type
+
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
 
     // Initialize Realtime Database and get a reference to the service
     const database = getDatabase(app);
-    const menuRef = ref(database, "orders");
+    const menuRef = ref(database, typeValue);
+
+    // 현재 URL의 쿼리 파라미터 가져오기
 
     onValue(menuRef, (snapshot) => {
       let sellPrice = 0;
@@ -154,8 +161,18 @@
                             alt=""
                             />
                         </td>
-                        <td class="text-center h-100 align-middle">${orderItem.name}</td>
-                        <td class="text-center align-middle">${orderItem.count}</td>
+                        <td class="text-center h-100 align-middle">${
+                          orderItem.name
+                        }</td>
+                        <td class="text-center align-middle">${
+                          orderItem.count
+                        }</td>
+                        <td class="text-center align-middle">${
+                          orderItem.money
+                        }</td>
+                        <td class="text-center align-middle">${
+                          orderItem.money * 1 * orderItem.count * 1
+                        }</td>
                     </tr>
             `;
             });
@@ -164,13 +181,15 @@
             if (isComplete) {
               let str = `
                     <div class="text-center mb-3">
-                      주문번호 : <span class="order-num">${orderId}</span>
+                      주문번호 : <span class="order-num">${orderItems[0].number}</span>
                       <table class="table">
                           <thead>
                               <tr>
-                              <td></td>
-                              <td class="text-center">Menu</td>
-                              <td class="text-center">Quantity</td>
+                                <td></td>
+                                <td class="text-center">상품명</td>
+                                <td class="text-center">수량</td>
+                                <td class="text-center">가격</td>
+                                <td class="text-center">총금액</td>
                               </tr>
                           </thead>
                           <tbody>
@@ -187,44 +206,6 @@
         }
       } else {
         console.log("주문 데이터가 없습니다.");
-      }
-    });
-
-    $(document).on("click", ".complete_btn", function () {
-      const orderId = $(this).data("num"); // 클릭된 버튼에서 orderId를 가져옴
-
-      // Firebase에서 해당 주문 데이터를 업데이트
-      const orderRef = ref(database, "orders/" + orderId);
-
-      if (confirm("다 만들었니 애들아?")) {
-        // 주문 데이터를 가져와 complete 필드를 업데이트
-        get(orderRef)
-          .then((snapshot) => {
-            if (snapshot.exists()) {
-              const orderItems = snapshot.val(); // 주문 아이템 배열
-
-              // 각 아이템의 complete 필드를 true로 설정
-              orderItems.forEach((orderItem, index) => {
-                orderItems[index].complete = true;
-              });
-
-              // 업데이트된 주문 데이터를 Firebase에 저장
-              set(orderRef, orderItems)
-                .then(() => {
-                  alert("주문이 완료 처리되었습니다.");
-                  location.reload(); // 페이지를 새로고침하여 변경 사항을 반영
-                })
-                .catch((error) => {
-                  console.error("주문 완료 처리 실패: ", error);
-                  alert("주문 완료 처리에 실패했습니다.");
-                });
-            } else {
-              console.log("해당 주문이 존재하지 않습니다.");
-            }
-          })
-          .catch((error) => {
-            console.error("데이터 가져오기 실패: ", error);
-          });
       }
     });
 
