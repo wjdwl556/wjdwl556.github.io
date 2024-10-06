@@ -129,7 +129,7 @@
     const database = getDatabase(app);
     const menuRef = ref(database, typeValue);
 
-    const sound = new Audio("/church/sound/sound.wav");
+    const sound = new Audio("/church/sound/alram.mp3");
 
     let isButtonClicked = false; // 버튼이 클릭되었는지 여부를 추적하는 플래그
     let menuNumber = 0;
@@ -232,7 +232,7 @@
       // 버튼이 클릭되었음을 기록
       isButtonClicked = true;
       // Firebase에서 해당 주문 데이터를 업데이트
-      const orderRef = ref(database, "cafeorder/" + orderId);
+      const orderRef = ref(database, `${typeValue}/` + orderId);
       Swal.fire({
         title: "완료 하시겠습니까?",
         confirmButtonText: "확인",
