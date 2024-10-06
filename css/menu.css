@@ -1,6 +1,14 @@
 .main_div {
-  background-color: #f5d78f;
+  background-color: #f9abbf;
 }
+
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .coffee_logo {
   border-bottom: 1px solid black;
 }
@@ -9,19 +17,19 @@
 }
 
 .dongle-light {
-  font-family: "Dongle", sans-serif;
+  font-family: "GmarketSansMedium";
   font-weight: 300;
   font-style: normal;
 }
 
 .dongle-regular {
-  font-family: "Dongle", sans-serif;
+  font-family: "GmarketSansMedium";
   font-weight: 400;
   font-style: normal;
 }
 
 .dongle-bold {
-  font-family: "Dongle", sans-serif;
+  font-family: "GmarketSansMedium";
   font-weight: 700;
   font-style: normal;
 }
@@ -31,10 +39,10 @@
 }
 
 * {
-  font-family: "Black And White Picture", system-ui;
+  font-family: "GmarketSansMedium";
   font-weight: 300;
   font-style: normal;
-  color: #7a5d23;
+  color: #000;
   font-size: 20px;
 }
 
@@ -44,7 +52,7 @@
   bottom: 0;
 }
 .order_list > div {
-  background-color: #ca9d78;
+  background-color: #ff5f87;
   border-radius: 10px 10px 0px 0px;
   /* min-height: 100px; */
 }
@@ -63,10 +71,10 @@
   align-items: center;
   justify-content: center;
   width: 84px;
-  background-color: #cc8341;
+  background-color: #f9abbf;
 }
 .btn:hover {
-  background-color: #b37846;
+  background-color: #f9abbf;
 }
 
 .menu_div img {
@@ -79,7 +87,7 @@
 
 *::-webkit-scrollbar-thumb {
   height: 30%; /* 스크롤바의 길이 */
-  background: #e0a26b; /* 스크롤바의 색상 */
+  background: #ff5f87; /* 스크롤바의 색상 */
 
   border-radius: 10px;
 }

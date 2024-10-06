@@ -237,13 +237,14 @@
       $(".coffee_logo").addClass("justify-content-center");
     }
 
+    // <img class="w-100 h-100 mb-2" src="/images/menu/${
+    //               selectedMenu.name
+    //             }/${v.name}.jpg" alt="" />
+
     $.each(selectedMenu.items, function (i, v) {
       let str = `
         <div class="col-4 mb-2 menu_div">
-            <div class="img-container">
-                <img class="w-100 h-100 mb-2" src="/images/menu/${
-                  selectedMenu.name
-                }/${v.name}.jpg" alt="" />
+            <div class="img-container" style="border-radius:20px; background:white;">
             </div>
             <div class="name">${v.name}</div>
             <div class="text-end money f-small">${addComma(v.money * 1)}</div>
