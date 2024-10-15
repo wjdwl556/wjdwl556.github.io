@@ -3,8 +3,9 @@
 }
 
 @font-face {
-  font-family: 'GmarketSansMedium';
-  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-family: "GmarketSansMedium";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -60,7 +61,7 @@
 .count {
   border-radius: 10px;
   border: 0;
-  background-color: #f5d78f;
+  background-color: #f9abbf;
 }
 .count:focus {
   outline: none;
@@ -76,10 +77,62 @@
 .btn:hover {
   background-color: #f9abbf;
 }
-
+.menu_div {
+  position: relative;
+}
 .menu_div img {
   border-radius: 16%;
 }
+.menu_div .name {
+  margin-top: 10px;
+}
+.badge-container {
+  position: absolute;
+  width: 32%;
+  top: -25px;
+  z-index: 10;
+  right: 0px;
+  /* animation: rotate 4s linear infinite; */
+  /* animation: rotate3d 4s linear infinite; */
+  backface-visibility: hidden; /* 이미지가 뒤집힐 때 뒷면이 보이지 않도록 설정 */
+  transform-style: preserve-3d; /* 3D 효과를 유지 */
+}
+.badge-container {
+  perspective: 100px; /* 3D 회전 효과를 위한 원근감 설정 */
+}
+
+.badge_ {
+  position: relative;
+  width: 80px; /* 원하는 크기로 조정 */
+  height: 80px; /* 원하는 크기로 조정 */
+  transform-style: preserve-3d; /* 3D 변환 유지 */
+}
+
+.badge-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* 뒷면 보이지 않도록 */
+}
+
+.front {
+  transform: rotateY(0deg);
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+@keyframes rotate3d {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
 /* 아래의 모든 코드는 영역::코드로 사용 */
 *::-webkit-scrollbar {
   width: 10px; /* 스크롤바의 너비 */
@@ -100,7 +153,7 @@
   position: absolute;
   right: -10px;
   cursor: pointer;
-  top: 2px;
+  top: -1px;
 }
 .order_div {
   position: relative;

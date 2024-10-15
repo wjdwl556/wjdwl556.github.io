@@ -46,6 +46,13 @@
       href="https://fonts.googleapis.com/css2?family=Sunflower:wght@300;500;700&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <link href="/css/styles.css" rel="stylesheet" />
@@ -58,15 +65,15 @@
       <div
         class="coffee_logo d-flex align-items-center justify-content-between mb-3"
       >
-        <div class="cafe_text">cafe</div>
-        <img style="width: 10%" src="/images/menu/cafe/logo.png" alt="" />
-        <div class="cafe_text">menu</div>
+        <div class="cafe_text">CAFE</div>
+        <img style="width: 26%" src="/images/menu/cafe/logo_.png" alt="" />
+        <div class="cafe_text">MENU</div>
       </div>
       <div class="menu_list">
         <div class="row text-center menu_draw"></div>
       </div>
       <div class="order_list">
-        <div class="container row" style="max-width: 950px">
+        <div class="container row pt-2" style="max-width: 950px">
           <div class="order_wrap"></div>
           <div
             class="btn_wrap my-2 d-flex align-items-center justify-content-end px-0"
@@ -201,29 +208,31 @@
         name: "cafe",
         items: [
           {
-            name: "아메리카노",
+            name: "아이스 아메리카노",
             money: "3000",
+            type: "hot",
           },
           {
-            name: "거품커피",
+            name: "초당 옥수수 커피",
             money: "1000",
+            type: "limited",
           },
           {
-            name: "믹스커피",
+            name: "초코 라떼",
             money: "2000",
           },
           {
-            name: "애플히비스커스티",
+            name: "자스민 자몽에이드",
             money: "1000",
           },
           {
-            name: "유자차",
+            name: "패션 후르츠 에이드",
             money: "1500",
           },
-          {
-            name: "음료1",
-            money: "1300",
-          },
+          // {
+          //   name: "음료1",
+          //   money: "1300",
+          // },
         ],
       },
     };
@@ -242,8 +251,24 @@
     //             }/${v.name}.jpg" alt="" />
 
     $.each(selectedMenu.items, function (i, v) {
+      let typeStr = ``;
+
+      if (v.type) {
+        if (v.type == "limited") {
+          typeStr = `
+          <div class="badge-container">
+            <div class="badge_ animate__flip animate__infinite infinite">
+              <img class="badge-img front" src="/images/menu/cafe/limited_offer.png" />
+              <img class="badge-img back" src="/images/menu/cafe/limited_offer.png" />
+            </div>
+          </div>
+          `;
+        }
+      }
+
       let str = `
         <div class="col-4 mb-2 menu_div">
+            ${typeStr}
             <div class="img-container" style="border-radius:20px; background:white;">
             </div>
             <div class="name">${v.name}</div>
@@ -266,7 +291,7 @@
       console.log("가격: " + cleanMoney);
       Swal.fire({
         title: "메뉴를 추가하시겠습니까?",
-        imageUrl: "https://unsplash.it/400/200",
+        imageUrl: "/images/menu/cafe/logo_.png",
         imageWidth: 400,
         imageHeight: 200,
         imageAlt: "Custom image",
