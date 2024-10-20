@@ -63,13 +63,22 @@
     <!-- End footer -->
     <div class="container main_container">
       <div
-        class="coffee_logo d-flex align-items-center justify-content-between mb-3"
+        class="coffee_logo d-flex align-items-center justify-content-between "
       >
         <div class="cafe_text">CAFE</div>
         <img style="width: 26%" src="/images/menu/cafe/logo_.png" alt="" />
         <div class="cafe_text">MENU</div>
       </div>
       <div class="menu_list">
+        <div class="d-flex align-items-center  mb-3 justify-content-between menu_tab_bar">
+          <div data-type="drink" class="text-center menu_tab_click py-3 w-50 pointer" style="border-right: 1px solid black;">
+            DRINK
+          </div>
+          <div data-type="bread" class="text-center menu_tab_click py-3 w-50 pointer">
+            DESSERT
+          </div>
+        </div>
+    
         <div class="row text-center menu_draw"></div>
       </div>
       <div class="order_list">
@@ -133,6 +142,9 @@
       measurementId: "G-9KG4DS84TQ",
       databaseURL: "https://menu-5ecc1-default-rtdb.firebaseio.com/",
     };
+
+
+    let cafeMenu = 'drink'
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
@@ -204,81 +216,137 @@
         ],
       },
       // 필요하다면 더 많은 메뉴 추가 가능
-      cafe: {
-        name: "cafe",
+      drink: {
+        name: "drink",
         items: [
           {
             name: "아이스 아메리카노",
-            money: "3000",
+            money: "2000",
+            type: "hot",
+          },
+          {
+            name: "아메리카노",
+            money: "1500",
             type: "hot",
           },
           {
             name: "초당 옥수수 커피",
-            money: "1000",
+            money: "4000",
             type: "limited",
           },
           {
             name: "초코 라떼",
-            money: "2000",
+            money: "3500",
           },
           {
             name: "자스민 자몽에이드",
-            money: "1000",
+            money: "3500",
           },
           {
             name: "패션 후르츠 에이드",
-            money: "1500",
+            money: "3500",
           },
-          // {
-          //   name: "음료1",
-          //   money: "1300",
-          // },
+        ],
+      },
+      bread: {
+        name: "bread",
+        items: [
+          {
+            name: "휘낭시에 (플레인)",
+            money: "2300",
+          },
+          {
+            name: "휘낭시에 (초코 솔트)",
+            money: "2800",
+            type: "hot",
+          },
+          {
+            name: "휘낭시에 (얼그레이)",
+            money: "2800",
+            type: "hot",
+          },
+          {
+            name: "휘낭시에 (피스타치오)",
+            money: "2800",
+          },
+          {
+            name: "마들렌 (플레인)",
+            money: "2300",
+          },
+          {
+            name: "마들렌 (초코)",
+            money: "2800",
+          },
+          {
+            name: "마들렌 (말차)",
+            money: "2800",
+          },
+          {
+            name: "마들렌 (레몬)",
+            money: "2800",
+          },
+          {
+            name:"화이트 초코 크렌베리 쿠키",
+            money:"1500"
+          },
+      
         ],
       },
     };
 
-    let selectedMenu = menus[typeValue];
-    console.log("selectedMenu", selectedMenu.name);
 
-    if (selectedMenu.name != "cafe") {
-      $(".cafe_text").addClass("d-none");
-      $(".coffee_logo").removeClass("justify-content-between");
-      $(".coffee_logo").addClass("justify-content-center");
+    draMenu();
+    function draMenu(){
+      let selectedMenu = menus[cafeMenu];
+        console.log("selectedMenu", selectedMenu.name);
+        $(".menu_draw").html('');
+        if (selectedMenu.name != "cafe") {
+          $(".cafe_text").addClass("d-none");
+          $(".coffee_logo").removeClass("justify-content-between");
+          $(".coffee_logo").addClass("justify-content-center");
+        }
+
+        // <img class="w-100 h-100 mb-2" src="/images/menu/${
+        //               selectedMenu.name
+        //             }/${v.name}.jpg" alt="" />
+
+        $.each(selectedMenu.items, function (i, v) {
+          let typeStr = ``;
+
+          if (v.type) {
+            if (v.type == "limited") {
+              typeStr = `
+              <div class="badge-container">
+                <div class="badge_ animate__flip animate__infinite infinite">
+                  <img class="badge-img front" src="/images/menu/cafe/limited_offer.png" />
+                  <img class="badge-img back" src="/images/menu/cafe/limited_offer.png" />
+                </div>
+              </div>
+              `;
+            }
+          }
+          console.log('cc', v.name);
+          
+          
+          
+          let str = ''
+          str = `
+            <div class="col-4 mb-2 menu_div">
+                ${typeStr}
+                <div class="img-container" style="border-radius:20px; background:white;">
+                  <img class="w-100 h-100 mb-2" src="/images/menu/cafe/${v.name}.jpg" alt="" />
+                </div>
+                <div class="name">${v.name}</div>
+                <div class="text-end money f-small">${addComma(v.money * 1)}</div>
+            </div>
+          `;
+          
+
+          $(".menu_draw").append(str);
+        });
     }
 
-    // <img class="w-100 h-100 mb-2" src="/images/menu/${
-    //               selectedMenu.name
-    //             }/${v.name}.jpg" alt="" />
-
-    $.each(selectedMenu.items, function (i, v) {
-      let typeStr = ``;
-
-      if (v.type) {
-        if (v.type == "limited") {
-          typeStr = `
-          <div class="badge-container">
-            <div class="badge_ animate__flip animate__infinite infinite">
-              <img class="badge-img front" src="/images/menu/cafe/limited_offer.png" />
-              <img class="badge-img back" src="/images/menu/cafe/limited_offer.png" />
-            </div>
-          </div>
-          `;
-        }
-      }
-
-      let str = `
-        <div class="col-4 mb-2 menu_div">
-            ${typeStr}
-            <div class="img-container" style="border-radius:20px; background:white;">
-            </div>
-            <div class="name">${v.name}</div>
-            <div class="text-end money f-small">${addComma(v.money * 1)}</div>
-        </div>
-      
-      `;
-
-      $(".menu_draw").append(str);
-    });
+  
 
     $(".menu_div").click(function () {
       // name과 money 값을 가져오기
@@ -480,5 +548,14 @@
           alert("주문 저장에 실패했습니다. 다시 시도해주세요.");
         });
     }
+
+
+
+    $('.menu_tab_click').click(function(){
+      let type = $(this).data('type');
+      cafeMenu = type;
+      console.log(cafeMenu);
+      draMenu();
+    })
   </script>
 </html>

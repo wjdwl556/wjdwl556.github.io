@@ -81,7 +81,7 @@
   position: relative;
 }
 .menu_div img {
-  border-radius: 16%;
+  /* border-radius: 16%; */
 }
 .menu_div .name {
   margin-top: 10px;
@@ -192,4 +192,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover; /* 이미지가 비율을 유지하며 컨테이너에 맞게 채워짐 */
+}
+
+.menu_tab_bar{
+  border: 1px solid black;
+  border-top: 0;
+}
+.pointer{
+  cursor: pointer;
 }
