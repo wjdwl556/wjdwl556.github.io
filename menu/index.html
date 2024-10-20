@@ -220,7 +220,7 @@
         name: "drink",
         items: [
           {
-            name: "아이스 아메리카노",
+            name: "아이스아메리카노",
             money: "2000",
             type: "hot",
           },
@@ -346,9 +346,9 @@
         });
     }
 
-  
+    
 
-    $(".menu_div").click(function () {
+    $(document).on("click", ".menu_div", function () {
       // name과 money 값을 가져오기
       var menuName = $(this).find(".name").text();
       var menuMoney = $(this).find(".money").text();
@@ -457,8 +457,7 @@
     let orderArr = [];
 
     let menuNumber = 0;
-
-    $(".order_btn").click(function () {
+    $(document).on("click", ".order_btn", function () {
       Swal.fire({
         title: "주문하시겠습니까?",
         icon: "warning",
@@ -548,10 +547,7 @@
           alert("주문 저장에 실패했습니다. 다시 시도해주세요.");
         });
     }
-
-
-
-    $('.menu_tab_click').click(function(){
+    $(document).on("click", ".menu_tab_click", function () {
       let type = $(this).data('type');
       cafeMenu = type;
       console.log(cafeMenu);
