@@ -11,7 +11,7 @@
 }
 
 .coffee_logo {
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
 }
 .f-small {
   font-size: 80%;
@@ -53,7 +53,7 @@
   bottom: 0;
 }
 .order_list > div {
-  background-color: #ff5f87;
+  background-color: #e79999;
   border-radius: 10px 10px 0px 0px;
   /* min-height: 100px; */
 }
@@ -72,10 +72,12 @@
   align-items: center;
   justify-content: center;
   width: 84px;
-  background-color: #f9abbf;
+  background-color: #f27494;
+  color: #fff;
 }
 .btn:hover {
-  background-color: #f9abbf;
+  background-color: #f93668;
+
 }
 .menu_div {
   position: relative;
@@ -85,6 +87,7 @@
 }
 .menu_div .name {
   margin-top: 10px;
+  letter-spacing: -1px;
 }
 .badge-container {
   position: absolute;
@@ -195,7 +198,6 @@
 }
 
 .menu_tab_bar{
-  border: 1px solid black;
   border-top: 0;
 }
 .pointer{
