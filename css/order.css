@@ -9,6 +9,14 @@
   font-size: 80%;
 }
 
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 .dongle-light {
   font-family: "Dongle", sans-serif;
   font-weight: 300;
@@ -32,10 +40,10 @@
 }
 
 * {
-  font-family: "Black And White Picture", system-ui;
+  font-family: "GmarketSansMedium";
   font-weight: 300;
   font-style: normal;
-  color: #7a5d23;
+  color: #000;
   font-size: 20px;
 }
 
