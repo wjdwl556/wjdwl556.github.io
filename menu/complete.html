@@ -227,80 +227,83 @@
               `;
               $(".liq_order").append(str);
               $(".total_price").html(addComma(sellPrice));
+
+              // C3.js에 사용할 데이터 형식으로 변환
+              const columns = [];
+              const productNames = new Set();
+
+              // 시간별 데이터를 C3.js에서 사용할 수 있도록 변환
+              Object.keys(countsByTime).forEach((time) => {
+                Object.keys(countsByTime[time]).forEach((name) => {
+                  productNames.add(name);
+                });
+              });
+
+              productNames.forEach((name) => {
+                const column = [name];
+                Object.keys(countsByTime).forEach((time) => {
+                  column.push(countsByTime[time][name] || 0); // 해당 시간에 해당 상품이 없으면 0으로 설정
+                });
+                columns.push(column);
+              });
+
+              const times = ["x", ...Object.keys(countsByTime)]; // x 축 시간 목록
+
+              // C3.js Chart 생성
+              const chart = c3.generate({
+                bindto: ".ct-chart-time",
+                data: {
+                  x: "x",
+                  columns: [times, ...columns],
+                  type: "bar",
+                },
+                axis: {
+                  x: {
+                    type: "category",
+                  },
+                  y: {
+                    min: 1, // Y축의 최소값을 0으로 설정
+                    max:
+                      Math.ceil(
+                        Math.max(
+                          ...columns.map((col) => Math.max(...col.slice(1)))
+                        )
+                      ) + 1, // Y축의 최대값을 최댓값+1로 설정
+                    tick: {
+                      format: function (value) {
+                        return Math.floor(value); // 소수점을 제거하여 정수로 표시
+                      },
+                      count: Math.ceil(
+                        Math.max(
+                          ...columns.map((col) => Math.max(...col.slice(1)))
+                        ) + 1
+                      ), // 최대값에 따라 눈금 수 설정
+                    },
+                  },
+                },
+                bar: {
+                  width: {
+                    ratio: 0.1, // 막대의 너비 조정
+                  },
+                },
+                padding: {
+                  top: 30,
+                },
+              });
+              const series = labels.map((label) => counts[label] || 0);
+              new Chartist.Bar(
+                ".ct-chart",
+                {
+                  labels: labels,
+                  series: series, // Chartist에서 시리즈는 배열 안에 배열 형태로 전달해야 함
+                },
+                {
+                  distributeSeries: true,
+                }
+              );
             }
           }
         }
-
-        // C3.js에 사용할 데이터 형식으로 변환
-        const columns = [];
-        const productNames = new Set();
-
-        // 시간별 데이터를 C3.js에서 사용할 수 있도록 변환
-        Object.keys(countsByTime).forEach((time) => {
-          Object.keys(countsByTime[time]).forEach((name) => {
-            productNames.add(name);
-          });
-        });
-
-        productNames.forEach((name) => {
-          const column = [name];
-          Object.keys(countsByTime).forEach((time) => {
-            column.push(countsByTime[time][name] || 0); // 해당 시간에 해당 상품이 없으면 0으로 설정
-          });
-          columns.push(column);
-        });
-
-        const times = ["x", ...Object.keys(countsByTime)]; // x 축 시간 목록
-
-        // C3.js Chart 생성
-        const chart = c3.generate({
-          bindto: ".ct-chart-time",
-          data: {
-            x: "x",
-            columns: [times, ...columns],
-            type: "bar",
-          },
-          axis: {
-            x: {
-              type: "category",
-            },
-            y: {
-              min: 1, // Y축의 최소값을 0으로 설정
-              max:
-                Math.ceil(
-                  Math.max(...columns.map((col) => Math.max(...col.slice(1))))
-                ) + 1, // Y축의 최대값을 최댓값+1로 설정
-              tick: {
-                format: function (value) {
-                  return Math.floor(value); // 소수점을 제거하여 정수로 표시
-                },
-                count: Math.ceil(
-                  Math.max(...columns.map((col) => Math.max(...col.slice(1)))) +
-                    1
-                ), // 최대값에 따라 눈금 수 설정
-              },
-            },
-          },
-          bar: {
-            width: {
-              ratio: 0.1, // 막대의 너비 조정
-            },
-          },
-          padding: {
-            top: 30,
-          },
-        });
-        const series = labels.map((label) => counts[label] || 0);
-        new Chartist.Bar(
-          ".ct-chart",
-          {
-            labels: labels,
-            series: series, // Chartist에서 시리즈는 배열 안에 배열 형태로 전달해야 함
-          },
-          {
-            distributeSeries: true,
-          }
-        );
       } else {
         console.log("주문 데이터가 없습니다.");
       }
