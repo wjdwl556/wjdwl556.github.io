@@ -63,22 +63,31 @@
     <!-- End footer -->
     <div class="container main_container">
       <div
-        class="coffee_logo d-flex align-items-center justify-content-between "
+        class="coffee_logo d-flex align-items-center justify-content-between"
       >
         <div class="cafe_text">CAFE</div>
         <img style="width: 26%" src="/images/menu/cafe/logo_.png" alt="" />
         <div class="cafe_text">MENU</div>
       </div>
       <div class="menu_list">
-        <div class="d-flex align-items-center  mb-3 justify-content-between menu_tab_bar">
-          <div data-type="drink" class="text-center btn-light btn menu_tab_click py-3 w-50 pointer" style="">
+        <div
+          class="d-flex align-items-center mb-3 justify-content-between menu_tab_bar"
+        >
+          <div
+            data-type="drink"
+            class="text-center btn-light btn menu_tab_click py-3 w-50 pointer"
+            style=""
+          >
             DRINK
           </div>
-          <div data-type="bread" class="text-center btn-light btn menu_tab_click py-3 w-50 pointer">
+          <div
+            data-type="bread"
+            class="text-center btn-light btn menu_tab_click py-3 w-50 pointer"
+          >
             DESSERT
           </div>
         </div>
-    
+
         <div class="row text-center menu_draw"></div>
       </div>
       <div class="order_list">
@@ -143,8 +152,7 @@
       databaseURL: "https://menu-5ecc1-default-rtdb.firebaseio.com/",
     };
 
-
-    let cafeMenu = 'drink'
+    let cafeMenu = "drink";
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
@@ -247,13 +255,13 @@
             money: "3500",
           },
           {
-            name:"자스민 자몽차(HOT)",
-            money:"3000",
+            name: "자스민 자몽차(HOT)",
+            money: "3000",
           },
           {
-            name:"패션 후르츠차(HOT)",
-            money:"3000"
-          }
+            name: "패션 후르츠차(HOT)",
+            money: "3000",
+          },
         ],
       },
       bread: {
@@ -294,36 +302,34 @@
             money: "2800",
           },
           {
-            name:"화이트 초코 크렌베리 쿠키",
-            money:"1500"
+            name: "화이트 초코 크렌베리 쿠키",
+            money: "1500",
           },
-      
         ],
       },
     };
 
-
     draMenu();
-    function draMenu(){
+    function draMenu() {
       let selectedMenu = menus[cafeMenu];
-        console.log("selectedMenu", selectedMenu.name);
-        $(".menu_draw").html('');
-        if (selectedMenu.name != "cafe") {
-          $(".cafe_text").addClass("d-none");
-          $(".coffee_logo").removeClass("justify-content-between");
-          $(".coffee_logo").addClass("justify-content-center");
-        }
+      console.log("selectedMenu", selectedMenu.name);
+      $(".menu_draw").html("");
+      if (selectedMenu.name != "cafe") {
+        $(".cafe_text").addClass("d-none");
+        $(".coffee_logo").removeClass("justify-content-between");
+        $(".coffee_logo").addClass("justify-content-center");
+      }
 
-        // <img class="w-100 h-100 mb-2" src="/images/menu/${
-        //               selectedMenu.name
-        //             }/${v.name}.jpg" alt="" />
+      // <img class="w-100 h-100 mb-2" src="/images/menu/${
+      //               selectedMenu.name
+      //             }/${v.name}.jpg" alt="" />
 
-        $.each(selectedMenu.items, function (i, v) {
-          let typeStr = ``;
+      $.each(selectedMenu.items, function (i, v) {
+        let typeStr = ``;
 
-          if (v.type) {
-            if (v.type == "limited") {
-              typeStr = `
+        if (v.type) {
+          if (v.type == "limited") {
+            typeStr = `
               <div class="badge-container">
                 <div class="badge_ animate__flip animate__infinite infinite">
                   <img class="badge-img front" src="/images/menu/cafe/limited_offer.png" />
@@ -331,30 +337,29 @@
                 </div>
               </div>
               `;
-            }
           }
-          console.log('cc', v.name);
-          
-          
-          
-          let str = ''
-          str = `
+        }
+        console.log("cc", v.name);
+
+        let str = "";
+        str = `
             <div class="col-4 mb-2 menu_div">
                 ${typeStr}
                 <div class="img-container" style="border-radius:20px; background:white;">
-                  <img class="w-100 h-100 mb-2" src="/images/menu/cafe/${v.name}.jpg" alt="" />
+                  <img class="w-100 h-100 mb-2" src="/images/menu/cafe/${
+                    v.name
+                  }.jpg" alt="" />
                 </div>
                 <div class="name">${v.name}</div>
-                <div class="text-end money f-small">${addComma(v.money * 1)}</div>
+                <div class="text-end money f-small">${addComma(
+                  v.money * 1
+                )}</div>
             </div>
           `;
-          
 
-          $(".menu_draw").append(str);
-        });
+        $(".menu_draw").append(str);
+      });
     }
-
-    
 
     $(document).on("click", ".menu_div", function () {
       // name과 money 값을 가져오기
@@ -383,6 +388,8 @@
                       min="1"
                       style="width: 70px; height: 40px"
                       type="number"
+                      inputmode="numeric"
+                      pattern="[0-9]*"
                       value="1"
                       class="p-1 text-sm text-center count"
                     />
@@ -487,6 +494,7 @@
                 count: count,
                 money: money,
                 number: menuNumber,
+                time: getCurrentTime(),
                 complete: false,
               };
               orderArr.push(obj);
@@ -556,10 +564,23 @@
         });
     }
     $(document).on("click", ".menu_tab_click", function () {
-      let type = $(this).data('type');
+      let type = $(this).data("type");
       cafeMenu = type;
       console.log(cafeMenu);
       draMenu();
-    })
+    });
+
+    function getCurrentTime() {
+      const now = new Date();
+
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1 필요
+      const day = String(now.getDate()).padStart(2, "0");
+      const hour = String(now.getHours()).padStart(2, "0");
+      const minute = String(now.getMinutes()).padStart(2, "0");
+
+      // 시간별 데이터 통계에 적합한 형식 반환
+      return `${year}-${month}-${day} ${hour}:${minute}`;
+    }
   </script>
 </html>
