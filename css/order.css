@@ -1,6 +1,14 @@
 .main_div {
   background-color: #eae3d3;
 }
+
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 .coffee_logo {
   border-bottom: 1px solid #c4c4c4;
   font-size: 50px;
@@ -32,7 +40,7 @@
 }
 
 * {
-  font-family: "Black And White Picture", system-ui;
+  font-family: "GmarketSansMedium";
   font-weight: 300;
   font-style: normal;
   color: #7a5d23;

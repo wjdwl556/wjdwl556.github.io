@@ -50,7 +50,7 @@
     <!-- End footer -->
 
     <div class="container main_container">
-      <div class="coffee_logo text-center mb-3">Order Sheet</div>
+      <div class="coffee_logo text-center mb-3">주문서</div>
 
       <div class="liq_order"></div>
 
@@ -129,7 +129,7 @@
     const database = getDatabase(app);
     const menuRef = ref(database, typeValue);
 
-    const sound = new Audio("/church/sound/alram.mp3");
+    const sound = new Audio("/church/sound/01_주문들어왔어요.mp3");
 
     let isButtonClicked = false; // 버튼이 클릭되었는지 여부를 추적하는 플래그
     let menuNumber = 0;
