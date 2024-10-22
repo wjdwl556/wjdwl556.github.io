@@ -138,3 +138,9 @@ tr {
 .swal2-popup {
   font-family: "Sunflower", sans-serif;
 }
+
+@media (max-width: 800px) {
+  * {
+    font-size: 1rem;
+  }
+}
