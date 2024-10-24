@@ -1,6 +1,14 @@
 .main_div {
   background-color: #eae3d3;
 }
+
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 .coffee_logo {
   border-bottom: 1px solid #c4c4c4;
   font-size: 50px;
@@ -137,4 +145,10 @@ tr {
 }
 .swal2-popup {
   font-family: "Sunflower", sans-serif;
+}
+
+@media (max-width: 800px) {
+  * {
+    font-size: 1rem;
+  }
 }

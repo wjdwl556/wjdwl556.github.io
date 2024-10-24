@@ -99,6 +99,7 @@
       getDatabase,
       ref,
       get,
+      remove,
       set,
       onValue,
     } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
@@ -129,7 +130,7 @@
     const database = getDatabase(app);
     const menuRef = ref(database, typeValue);
 
-    const sound = new Audio("/church/sound/alram.mp3");
+    const sound = new Audio("/church/sound/01_주문들어왔어요.mp3");
 
     let isButtonClicked = false; // 버튼이 클릭되었는지 여부를 추적하는 플래그
     let menuNumber = 0;
@@ -137,7 +138,6 @@
       $(".liq_order").html("");
       let sellPrice = 0;
       const data = snapshot.val();
-
       console.log("cc", Object.keys(data).length);
       menuNumber = Object.keys(data).length * 1 + 1;
 
@@ -145,7 +145,6 @@
       let previousData = {};
 
       if (data) {
-        // complete_btn이 클릭되지 않은 경우에만 소리를 재생
         if (
           !isButtonClicked &&
           JSON.stringify(previousData) !== JSON.stringify(data)
@@ -153,61 +152,62 @@
           sound.play(); // 소리 재생
         }
 
-        // 주문 ID에 해당하는 모든 데이터를 순회
         for (const orderId in data) {
           if (data.hasOwnProperty(orderId)) {
             const orderItems = data[orderId]; // 각각의 주문 데이터 (배열)
             let tDstr = ``;
-            let isComplete = false; // 모든 항목의 완료 상태를 확인하는 변수
-            console.log("orderItems", orderItems);
+            let isComplete = false;
 
-            // 각 주문 아이템을 순회하며 출력
-            orderItems.forEach((orderItem) => {
-              // 만약 하나라도 complete가 true라면 해당 주문을 처리하지 않음
+            orderItems.forEach((orderItem, index) => {
               if (orderItem.complete) {
                 isComplete = true;
                 sellPrice += orderItem.money * orderItem.count;
               }
 
+              // Add data attributes to store orderId and index of the order item
               tDstr += `
-              <tr>
-                  <td style="width: 100px">
-                      <img
-                      style="width: 100px; height: 100px"
-                      src="/images/menu/${typeValue}/${orderItem.name}.jpg"
-                      alt=""
-                      />
-                  </td>
-                  <td class="text-center h-100 align-middle w-75">${orderItem.name}</td>
-                  <td class="text-center align-middle">${orderItem.count}</td>
-              </tr>
-          `;
+                    <tr>
+                        <td style="width: 100px">
+                            <img
+                            style="width: 100px; height: 100px"
+                            src="/images/menu/${typeValue}/${orderItem.name}.jpg"
+                            alt="${orderItem.name}"
+                            />
+                        </td>
+                        <td class="text-center h-100 align-middle w-75">${orderItem.name}</td>
+                        <td class="text-center align-middle">${orderItem.count}</td>
+                        <td class="text-center align-middle">
+                            <div style="font-size:12px; width:70px" class="btn btn-sm btn-danger delete-btn" 
+                            data-order-id="${orderId}" data-item-index="${index}">주문취소</div>
+                        </td>
+                    </tr>
+                `;
             });
 
             menuNumber++;
 
-            // 모든 아이템이 완료되지 않았을 때만 HTML을 추가
             if (!isComplete) {
               let str = `
-              <div class="text-center mb-3">
-                주문번호 : <span class="order-num 1">${orderItems[0].number}</span>
-                <table class="table">
-                    <thead>
-                        <tr>
-                        <td></td>
-                        <td class="text-center">메뉴</td>
-                        <td class="text-center">수량</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${tDstr}
-                    </tbody>
-                </table>
-                <div class="btn_wrap text-end">
-                <div data-num=${orderId} class="complete_btn ms-auto">완료</div>
-                </div>
-            </div>
-          `;
+                    <div class="text-center mb-3">
+                      주문번호 : <span class="order-num 1">${orderItems[0].number}</span>
+                      <table class="table">
+                          <thead>
+                              <tr>
+                                <td></td>
+                                <td class="text-center">메뉴</td>
+                                <td style="min-width:100px" class="text-center">수량</td>
+                                <td class="text-center"></td>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              ${tDstr}
+                          </tbody>
+                      </table>
+                      <div class="btn_wrap text-end">
+                      <div data-num=${orderId} class="complete_btn ms-auto">완료</div>
+                      </div>
+                  </div>
+                `;
 
               $(".liq_order").prepend(str);
             } else {
@@ -216,14 +216,45 @@
           }
         }
 
-        // 데이터 업데이트 후 이전 데이터에 현재 데이터를 저장
         previousData = data;
       } else {
         console.log("주문 데이터가 없습니다.");
       }
 
-      // complete_btn이 클릭된 이후 플래그 초기화
       isButtonClicked = false;
+    });
+
+    $(document).on("click", ".delete-btn", function () {
+      const orderId = $(this).data("order-id"); // 주문 ID 가져오기
+      const itemIndex = $(this).data("item-index"); // 주문 항목의 인덱스 가져오기
+
+      // SweetAlert을 통해 삭제 확인
+      Swal.fire({
+        title: "해당 항목을 삭제하시겠습니까?",
+        text: "삭제 후에는 되돌릴 수 없습니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Firebase에서 해당 주문 항목 삭제
+          const itemRef = ref(
+            database,
+            `${typeValue}/` + orderId + "/" + itemIndex
+          );
+          remove(itemRef)
+            .then(() => {
+              Swal.fire("삭제되었습니다.", "", "success");
+              // 필요하면 페이지 새로고침 또는 리스트 갱신
+              // location.reload(); // 주석 해제하면 새로고침 가능
+            })
+            .catch((error) => {
+              console.error("삭제 실패: ", error);
+              Swal.fire("삭제에 실패했습니다.", "", "error");
+            });
+        }
+      });
     });
 
     $(document).on("click", ".complete_btn", function () {
