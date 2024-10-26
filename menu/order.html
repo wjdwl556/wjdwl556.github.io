@@ -187,7 +187,9 @@
             menuNumber++;
 
             if (!isComplete) {
-              let str = `
+
+              if(orderItems[0]){
+                let str = `
                     <div class="text-center mb-3">
                       주문번호 : <span class="order-num 1">${orderItems[0].number}</span>
                       <table class="table">
@@ -209,7 +211,12 @@
                   </div>
                 `;
 
-              $(".liq_order").prepend(str);
+                $(".liq_order").prepend(str);
+              }
+              
+             
+
+              
             } else {
               $(".total_price").html(addComma(sellPrice));
             }
