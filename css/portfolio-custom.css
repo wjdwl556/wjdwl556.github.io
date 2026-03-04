@@ -152,6 +152,7 @@ header a:hover {
   line-height: 1.8;
   color: var(--text-muted);
   margin-bottom: 16px;
+  word-break: keep-all;
 }
 
 .about-content strong {
