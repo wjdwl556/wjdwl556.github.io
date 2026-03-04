@@ -1,6 +1,5 @@
 $(document).ready(function () {
-  console.log("xxx");
-  let projects = [
+  const projects = [
     {
       name: "2021 제9회 통일교육주간",
       img: "images/works/project1.png",
@@ -11,9 +10,9 @@ $(document).ready(function () {
       link: "https://www.uniedu.go.kr/uniedu/home/cms/page/uniweek/uniweek9.do",
     },
     {
-      name: "2021 제9회 통일교육주간",
+      name: "2022 제10회 통일교육주간",
       img: "images/works/project2.png",
-      text: "국립통일교육원 주간 행사용홈페이지 <br>- 메인화면 UI 개발 작업 <br>- 각종 게시판 기능 개발 <br>- 출석체크, 선착순 이벤트 ajax를 이용한 실시간 데이터 처리 <br>- 이상형월드컵 , 사다리타기, 십자말 풀이등 각종 게임 기능 개발",
+      text: "국립통일교육원 주간 행사용홈페이지 <br>- 메인화면 UI 개발 작업 <br>- 각종 게시판 기능 개발 <br>- 출석체크, 선착순 이벤트 ajax를 이용한 실시간 데이터 처리 <br>- 이상형월드컵, 사다리타기, 십자말 풀이 등 각종 게임 기능 개발",
       stack: "HTML, CSS, JS, JQUERY, BOOTSTRAP, NODE.JS, AJAX, MYSQL",
       date: "2022-04 ~ 2022-05",
       per: 100,
@@ -112,50 +111,28 @@ $(document).ready(function () {
   ];
 
   $.each(projects, function (i, v) {
-    let linkTd = ``;
-    if (v.link) {
-      linkTd = `<tr>
-                  <th>링크</th>
-                  <td><a href="${v.link}" target="_blank">${v.link}</a></td>
-                </tr>`;
-    }
-    let str = `<div class="">
-                <div class="p-2 d-flex justify-content-center cont-wrap align-items-center">
-                  <img src="${v.img}" alt="" class="me-md-4" />
-                  <table class="table text-center">
-                    <tr>
-                      <th>프로젝트 명</th>
-                      <td>${v.name}</td>
-                    </tr>              
-                    <tr>
-                      <th>설명</th>
-                      <td>${v.text}</td>
-                    </tr>
-                    <tr>
-                      <th>기술스택</th>
-                      <td>${v.stack}</td>
-                    </tr>
-                    <tr>
-                      <th>기간</th>
-                      <td>${v.date}</td>
-                    </tr>
-                    <tr>
-                      <th>기여도</th>
-                      <td>${v.per}%</td>
-                    </tr>
-                    ${linkTd}
-                  </table>
+    const linkBtn = v.link
+      ? `<a href="${v.link}" target="_blank" rel="noopener" class="project-link-btn"><i class="fa fa-external-link"></i> 사이트 보기</a>`
+      : "";
+    const str = `<div class="project-slide">
+                <div class="project-slide-inner d-flex justify-content-center cont-wrap align-items-center">
+                  <div class="project-thumb"><img src="${v.img}" alt="${v.name}" loading="lazy" /></div>
+                  <div class="project-detail">
+                    <h3 class="project-title">${v.name}</h3>
+                    <div class="project-meta">
+                      <span class="project-date"><i class="fa fa-calendar"></i> ${v.date}</span>
+                      <span class="project-per">기여도 ${v.per}%</span>
+                    </div>
+                    <div class="project-desc">${v.text}</div>
+                    <div class="project-stack"><strong>기술스택:</strong> ${v.stack}</div>
+                    ${linkBtn}
+                  </div>
                 </div>
               </div>`;
     $("#works-slider-contents").append(str);
 
-    let nav_str = `<div class="p-1 p-md-3">
-                        <div
-                          class="bg_setting"
-                          style="background-image: url('${v.img}')"
-                        ></div>
-                      </div>`;
-    $("#works-slider-nav").append(nav_str);
+    const navStr = `<div class="slider-nav-item"><div class="bg_setting" style="background-image: url('${v.img}')"></div></div>`;
+    $("#works-slider-nav").append(navStr);
   });
 
   $(".slider-for").slick({
@@ -171,37 +148,14 @@ $(document).ready(function () {
     slidesToShow: 4,
     slidesToScroll: 1,
     asNavFor: ".slider-for",
-    dots: false,
+    dots: true,
     arrows: false,
     centerMode: true,
     infinite: false,
     focusOnSelect: true,
     responsive: [
-      // 반응형 웹 구현 옵션
-      {
-        breakpoint: 765, //화면 사이즈 960px
-        settings: {
-          //위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
-          slidesToShow: 2,
-        },
-      },
+      { breakpoint: 992, settings: { slidesToShow: 3 } },
+      { breakpoint: 765, settings: { slidesToShow: 2 } },
     ],
   });
-
-  $(".slider-for").slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    fade: true,
-    asNavFor: ".slider-nav",
-  });
-  $(".slider-nav").slick({
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    asNavFor: ".slider-for",
-    dots: true,
-    centerMode: true,
-    focusOnSelect: true,
-  });
 });
-7;

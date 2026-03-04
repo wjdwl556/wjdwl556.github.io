@@ -1,95 +1,171 @@
-@charset "utf-8";
-#section3 {
-  height: auto;
-  padding: 150px 0;
+/* Project Section - Modern Card Design */
+:root {
+  --project-card-bg: #fff;
+  --project-border: rgba(0, 0, 0, 0.06);
+  --project-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  --project-accent: #0f766e;
+  --project-accent-hover: #0d5c56;
 }
-#workstext {
-  width: 150px;
+
+#projects {
+  padding: 80px 15px 100px;
+}
+
+.project-slide {
+  padding: 20px 0;
+}
+
+.project-slide-inner {
+  max-width: 1000px;
   margin: 0 auto;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.project-thumb {
+  flex-shrink: 0;
+  border-radius: 12px;
   overflow: hidden;
-  margin-bottom: 150px;
-}
-#workstext > p {
-  float: left;
-  width: 20%;
-  text-align: center;
-  font-size: 30px;
-  transform: translateY(20px);
-  transition: 0.5s;
-  opacity: 0;
-}
-#workstext > p.on {
-  transform: translateY(0);
-  opacity: 1;
-}
-#workstext > p:nth-child(2) {
-  transition-delay: 0.1s;
-}
-#workstext > p:nth-child(3) {
-  transition-delay: 0.2s;
-}
-#workstext > p:nth-child(4) {
-  transition-delay: 0.3s;
-}
-#workstext > p:nth-child(5) {
-  transition-delay: 0.4s;
+  box-shadow: var(--project-shadow);
+  border: 1px solid var(--project-border);
 }
 
-#workslist {
-  width: 100%;
-  transition: 0.5s;
-  transition-delay: 0.6s;
-  margin: 0 auto;
-  opacity: 0;
+.project-thumb img {
+  width: 380px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
 }
 
-#workslist.on {
-  opacity: 1;
+.project-detail {
+  flex: 1;
+  min-width: 280px;
+}
+
+.project-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.02em;
+}
+
+.project-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.project-meta i {
+  margin-right: 6px;
+  color: var(--project-accent);
+}
+
+.project-desc {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #475569;
+  margin-bottom: 16px;
+}
+
+.project-desc br + * {
+  margin-top: 4px;
+}
+
+.project-stack {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.project-stack strong {
+  color: #334155;
+}
+
+.project-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--project-accent);
+  color: #fff !important;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.project-link-btn:hover {
+  background: var(--project-accent-hover);
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+/* Slider Nav */
+#works-slider-nav {
+  margin-top: 24px;
+  padding: 0 20px;
+}
+
+.slider-nav-item {
+  padding: 0 8px;
 }
 
 .bg_setting {
   background-position: center !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
+  padding-bottom: 56%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--project-border);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-#works-slider-nav {
-  margin-top: 3vw;
-}
-#works-slider-nav .bg_setting {
-  padding-bottom: 60%;
+#works-slider-nav .slick-current .bg_setting {
+  box-shadow: 0 0 0 2px var(--project-accent);
+  transform: scale(1.02);
 }
 
-#works-slider-contents img {
-  width: 35vw;
+#works-slider-nav .slick-slide {
+  cursor: pointer;
 }
-#works-slider-contents table {
-  width: 45vw;
+
+/* Slick overrides */
+#works-slider-nav .slick-dots {
+  bottom: -35px;
 }
-#works-slider-contents table td,
-#works-slider-contents table th {
-  font-size: 13px;
-  vertical-align: middle;
+
+#works-slider-nav .slick-dots li button:before {
+  font-size: 10px;
+  color: #94a3b8;
 }
-#works-slider-contents table td {
-  text-align: left;
+
+#works-slider-nav .slick-dots li.slick-active button:before {
+  color: var(--project-accent);
 }
-#works-slider-contents table th {
-  width: 25%;
-}
-@media (max-width: 765px) {
-  #works-slider-contents table {
+
+@media (max-width: 768px) {
+  .project-slide-inner {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .project-thumb img {
     width: 100%;
+    max-width: 100%;
   }
-  #works-slider-contents table td,
-  #works-slider-contents table th {
-    font-size: 10px;
+
+  .project-title {
+    font-size: 1.25rem;
   }
-  .cont-wrap {
-    flex-flow: column;
-  }
-  #works-slider-contents img {
-    width: 50vw;
-    margin-bottom: 30px;
+
+  .project-meta {
+    flex-wrap: wrap;
+    font-size: 0.85rem;
   }
 }

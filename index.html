@@ -1,107 +1,158 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>정지원 PORTFOLIO</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" />
-    <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css" />
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js" integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="css/styles.css" rel="stylesheet" />
-    <link href="css/project.css" rel="stylesheet" />
-  </head>
+<html lang="ko">
 
-  <body>
-    <div id="mobile-menu-open" class="shadow-large">
-      <i class="fa fa-bars" aria-hidden="true"></i>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="정지원 - Front-end Web Developer 포트폴리오. React, Node.js, 다양한 웹 프로젝트 경험" />
+  <meta name="keywords" content="프론트엔드 개발자, 웹 개발자, React, Node.js, JavaScript, 포트폴리오" />
+  <meta property="og:title" content="정지원 | Front-end Developer Portfolio" />
+  <meta property="og:description" content="다양한 웹 프로젝트 경험을 보유한 프론트엔드 개발자 포트폴리오" />
+  <title>정지원 | Front-end Developer Portfolio</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
+    integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="css/styles.css" rel="stylesheet" />
+  <link href="css/project.css" rel="stylesheet" />
+  <link href="css/portfolio-custom.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="mobile-menu-open" class="shadow-large">
+    <i class="fa fa-bars" aria-hidden="true"></i>
+  </div>
+  <header>
+    <div id="mobile-menu-close"><span>Close</span> <i class="fa fa-times" aria-hidden="true"></i></div>
+    <ul id="menu" class="shadow">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <div id="lead">
+    <div class="lead-bg-gradient"></div>
+    <div class="lead-pattern"></div>
+    <div id="lead-content">
+      <p class="lead-greeting">안녕하세요,</p>
+      <h1>정지원</h1>
+      <h2>Front-end Web Developer</h2>
+      <p class="lead-desc">사용자 경험을 최우선으로 생각하며, 다양한 기술 스택으로 웹 서비스를 구현합니다</p>
+      <a href="#projects" class="btn-lead">
+        <span>프로젝트 보기</span>
+        <i class="fa fa-chevron-down" aria-hidden="true"></i>
+      </a>
     </div>
-    <!-- End #mobile-menu-toggle -->
-    <header>
-      <div id="mobile-menu-close"><span>Close</span> <i class="fa fa-times" aria-hidden="true"></i></div>
-      <ul id="menu" class="shadow">
-        <li>
-          <a href="#projects">Projects</a>
-        </li>
-        <li>
-          <a href="#skills">Skills</a>
-        </li>
-      </ul>
-    </header>
-    <!-- End header -->
+    <div id="lead-down">
+      <span><i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+    </div>
+  </div>
 
-    <div id="lead">
-      <div id="lead-content">
-        <h1>정지원</h1>
-        <h2>Front-end web developer</h2>
+  <section id="about">
+    <h2 class="heading">About</h2>
+    <div class="container">
+      <div class="about-content">
+        <p>다양한 웹 프로젝트 경험을 바탕으로 <strong>퍼블리싱, 프론트엔드 개발, 백엔드 연동</strong>까지 폭넓은 역량을 보유하고 있습니다.</p>
+        <p>쇼핑몰, 예약 시스템, 관리자 페이지, 이벤트 페이지 등 실무 프로젝트를 수행하며 <strong>실시간 데이터 처리, 결제 연동, SNS 로그인</strong> 등 복합적인 기능 구현 경험이
+          있습니다.</p>
       </div>
-      <!-- End #lead-content -->
-
-      <div id="lead-overlay"></div>
-
-      <div id="lead-down">
-        <span>
-          <i class="fa fa-chevron-down" aria-hidden="true"></i>
-        </span>
-      </div>
-      <!-- End #lead-down -->
     </div>
+  </section>
 
-    <div id="projects" class="background-alt">
-      <h2 class="heading">Projects</h2>
-      <div class="container">
-        <div id="works-slider-contents" class="slider-for"></div>
-        <div id="works-slider-nav" class="slider-nav"></div>
-        <!-- End .project -->
-      </div>
+  <div id="projects" class="background-alt">
+    <h2 class="heading">Projects</h2>
+    <div class="container">
+      <div id="works-slider-contents" class="slider-for"></div>
+      <div id="works-slider-nav" class="slider-nav"></div>
     </div>
-    <!-- End #projects -->
+  </div>
 
-    <div id="skills">
-      <h2 class="heading">Skills</h2>
-      <ul>
-        <li>JavaScript</li>
-        <li>Node.js</li>
-        <li>React</li>
-        <li>JavaScript</li>
-        <li>MySql</li>
-        <li>jquery</li>
-        <li>ajax</li>
-        <li>axios</li>
-        <li>wordpress</li>
-      </ul>
-    </div>
-    <!-- End #skills -->
-
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-5 copyright">
-            <p>Copyright &copy; <span id="current-year">2023</span>정지원</p>
-          </div>
-          <div class="col-sm-2 top">
-            <span id="to-top">
-              <i class="fa fa-chevron-up" aria-hidden="true"></i>
-            </span>
-          </div>
+  <div id="skills">
+    <h2 class="heading">Skills</h2>
+    <div class="container">
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h3><i class="fa fa-code"></i> Frontend</h3>
+          <ul>
+            <li>JavaScript</li>
+            <li>React</li>
+            <li>jQuery</li>
+            <li>HTML5 / CSS3</li>
+            <li>Bootstrap</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3><i class="fa fa-server"></i> Backend</h3>
+          <ul>
+            <li>Node.js</li>
+            <li>REST API</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3><i class="fa fa-database"></i> Data & Tools</h3>
+          <ul>
+            <li>MySQL</li>
+            <li>Ajax / Axios</li>
+            <li>WordPress</li>
+          </ul>
         </div>
       </div>
-    </footer>
-    <!-- End footer -->
+    </div>
+  </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="js/scripts.min.js"></script>
+  <section id="contact">
+    <h2 class="heading">Contact</h2>
+    <div class="container">
+      <p class="contact-desc">프로젝트 문의나 협업 제안을 환영합니다</p>
+      <div class="contact-links">
+        <a href="mailto:your-email@example.com" class="contact-btn" title="이메일">
+          <i class="fa fa-envelope"></i>
+          <span>Email</span>
+        </a>
+        <a href="https://github.com/wjdwl556" target="_blank" rel="noopener" class="contact-btn" title="GitHub">
+          <i class="fa fa-github"></i>
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-5 copyright">
+          <p>© <span id="current-year">2025</span> 정지원. All rights reserved.</p>
+        </div>
+        <div class="col-sm-2 top">
+          <span id="to-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></span>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <script src="js/project.js"></script>
-  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"
+    integrity="sha512-9vakkIFcs4BbfMtYqJA8Ica9c+OYB/5YBSCyz4Dpx8ExORwakKFvs9fq/mITWEaXOLmdBbRgXQFAz3dS4iySCQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+  <script src="js/scripts.min.js"></script>
+  <script src="js/project.js"></script>
+  <script src="js/portfolio-enhance.js"></script>
+  <script>
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
+</body>
 
-  <script></script>
 </html>
