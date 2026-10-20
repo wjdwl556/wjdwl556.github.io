@@ -1,0 +1,154 @@
+.main_div {
+  background-color: #eae3d3;
+}
+
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+.coffee_logo {
+  border-bottom: 1px solid #c4c4c4;
+  font-size: 50px;
+}
+.f-small {
+  font-size: 80%;
+}
+
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.dongle-light {
+  font-family: "Dongle", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.dongle-regular {
+  font-family: "Dongle", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.dongle-bold {
+  font-family: "Dongle", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+.main_container {
+  max-width: 950px;
+  margin-bottom: 60px;
+}
+
+* {
+  font-family: "GmarketSansMedium";
+  font-weight: 300;
+  font-style: normal;
+  color: #000;
+  font-size: 20px;
+}
+
+.order_list {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+.order_list > div {
+  background-color: #ca9d78;
+  border-radius: 10px 10px 0px 0px;
+  /* min-height: 100px; */
+}
+
+.count {
+  border-radius: 10px;
+  border: 0;
+  background-color: #f5d78f;
+}
+.count:focus {
+  outline: none;
+}
+.btn {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  background-color: #cc8341;
+}
+.btn:hover {
+  background-color: #b37846;
+}
+
+.menu_div img {
+  border-radius: 16%;
+}
+/* 아래의 모든 코드는 영역::코드로 사용 */
+*::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+
+*::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #e0a26b; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, 0.1); /*스크롤바 뒷 배경 색상*/
+}
+
+.order_delete_btn {
+  position: absolute;
+  right: -10px;
+  cursor: pointer;
+  top: 2px;
+}
+.order_div {
+  position: relative;
+}
+.menu_div:hover {
+  transform: scale(1.01);
+  transition-duration: 0.5s;
+}
+.border-color {
+  border-color: #c4c4c4;
+}
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  border-color: #c4c4c4;
+}
+
+.complete_btn {
+  width: 80px;
+  height: 40px;
+  background-color: #b37846;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.complete_btn:hover {
+  background-color: #aa853a;
+}
+.swal2-popup {
+  font-family: "Sunflower", sans-serif;
+}
+
+@media (max-width: 800px) {
+  * {
+    font-size: 1rem;
+  }
+}

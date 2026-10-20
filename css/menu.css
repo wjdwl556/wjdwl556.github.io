@@ -1,0 +1,205 @@
+.main_div {
+  background-color: #f9abbf;
+}
+
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.coffee_logo {
+  /* border-bottom: 1px solid black; */
+}
+.f-small {
+  font-size: 80%;
+}
+
+.dongle-light {
+  font-family: "GmarketSansMedium";
+  font-weight: 300;
+  font-style: normal;
+}
+
+.dongle-regular {
+  font-family: "GmarketSansMedium";
+  font-weight: 400;
+  font-style: normal;
+}
+
+.dongle-bold {
+  font-family: "GmarketSansMedium";
+  font-weight: 700;
+  font-style: normal;
+}
+.main_container {
+  max-width: 950px;
+  margin-bottom: 60px;
+}
+
+* {
+  font-family: "GmarketSansMedium";
+  font-weight: 300;
+  font-style: normal;
+  color: #000;
+  font-size: 20px;
+}
+
+.order_list {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+.order_list > div {
+  background-color: #e79999;
+  border-radius: 10px 10px 0px 0px;
+  /* min-height: 100px; */
+}
+
+.count {
+  border-radius: 10px;
+  border: 0;
+  background-color: #f9abbf;
+}
+.count:focus {
+  outline: none;
+}
+.btn {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  background-color: #f27494;
+  color: #fff;
+}
+.btn:hover {
+  background-color: #f93668;
+
+}
+.menu_div {
+  position: relative;
+}
+.menu_div img {
+  /* border-radius: 16%; */
+}
+.menu_div .name {
+  margin-top: 10px;
+  letter-spacing: -1px;
+}
+.badge-container {
+  position: absolute;
+  width: 32%;
+  top: -25px;
+  z-index: 10;
+  right: 0px;
+  /* animation: rotate 4s linear infinite; */
+  /* animation: rotate3d 4s linear infinite; */
+  backface-visibility: hidden; /* 이미지가 뒤집힐 때 뒷면이 보이지 않도록 설정 */
+  transform-style: preserve-3d; /* 3D 효과를 유지 */
+}
+.badge-container {
+  perspective: 100px; /* 3D 회전 효과를 위한 원근감 설정 */
+}
+
+.badge_ {
+  position: relative;
+  width: 80px; /* 원하는 크기로 조정 */
+  height: 80px; /* 원하는 크기로 조정 */
+  transform-style: preserve-3d; /* 3D 변환 유지 */
+}
+
+.badge-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* 뒷면 보이지 않도록 */
+}
+
+.front {
+  transform: rotateY(0deg);
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+@keyframes rotate3d {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+/* 아래의 모든 코드는 영역::코드로 사용 */
+*::-webkit-scrollbar {
+  width: 10px; /* 스크롤바의 너비 */
+}
+
+*::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #ff5f87; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, 0.1); /*스크롤바 뒷 배경 색상*/
+}
+
+.order_delete_btn {
+  position: absolute;
+  right: -10px;
+  cursor: pointer;
+  top: -1px;
+}
+.order_div {
+  position: relative;
+}
+.menu_div:hover {
+  transform: scale(1.01);
+  transition-duration: 0.5s;
+}
+.swal2-title,
+.swal2-styled {
+  font-family: "Sunflower", sans-serif !important;
+  font-size: 33px;
+}
+.swal2-styled {
+  width: 70px !important;
+  padding: 3px !important;
+}
+.swal2-popup {
+  width: 25rem;
+}
+.swal2-html-container {
+  font-family: "Sunflower", sans-serif !important;
+}
+
+.img-container {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* 정사각형을 유지하기 위한 패딩 비율 */
+  overflow: hidden; /* 이미지가 컨테이너를 넘지 않도록 설정 */
+}
+
+.img-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 이미지가 비율을 유지하며 컨테이너에 맞게 채워짐 */
+}
+
+.menu_tab_bar{
+  border-top: 0;
+}
+.pointer{
+  cursor: pointer;
+}

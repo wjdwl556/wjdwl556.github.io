@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>평강교회 바자회 주문서</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+      integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Black+And+White+Picture&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
+      integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/project.css" rel="stylesheet" />
+    <link href="/css/order.css" rel="stylesheet" />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  </head>
+
+  <body class="main_div">
+    <!-- End footer -->
+
+    <div class="container main_container">
+      <div class="coffee_logo text-center mb-3">주문서</div>
+
+      <div class="liq_order"></div>
+
+      <div class="order_list">
+        <div class="container row" style="max-width: 950px">
+          <div class="order_wrap"></div>
+          <div
+            class="btn_wrap my-2 d-flex align-items-center justify-content-end px-0"
+          >
+            <div class="me-3">
+              누적 판매금액:<span class="total_price ms-2">0</span>원
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/scripts.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"
+      integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script
+      type="text/javascript"
+      src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"
+    ></script>
+    <script src="js/project.js"></script>
+  </body>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+    import {
+      getDatabase,
+      ref,
+      get,
+      remove,
+      set,
+      onValue,
+    } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDg0M1zak7ZdIBp6uoFgiSwlyfdXoo5zvk",
+      authDomain: "menu-5ecc1.firebaseapp.com",
+      projectId: "menu-5ecc1",
+      storageBucket: "menu-5ecc1.appspot.com",
+      messagingSenderId: "411891444872",
+      appId: "1:411891444872:web:d3bc08ce89d89ee3ee433d",
+      measurementId: "G-9KG4DS84TQ",
+      databaseURL: "https://menu-5ecc1-default-rtdb.firebaseio.com/",
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    let urlParams = new URLSearchParams(window.location.search);
+
+    // 각 파라미터 값 가져오기
+    let typeValue = urlParams.get("type"); //type
+    console.log(";typeValue", typeValue);
+
+    // Initialize Realtime Database and get a reference to the service
+    const database = getDatabase(app);
+    const menuRef = ref(database, typeValue);
+
+    const sound = new Audio("/church/sound/01_주문들어왔어요.mp3");
+
+    let isButtonClicked = false; // 버튼이 클릭되었는지 여부를 추적하는 플래그
+    let menuNumber = 0;
+    onValue(menuRef, (snapshot) => {
+      $(".liq_order").html("");
+      let sellPrice = 0;
+      const data = snapshot.val();
+      console.log("cc", Object.keys(data).length);
+      menuNumber = Object.keys(data).length * 1 + 1;
+
+      // 이전 데이터와 비교하기 위한 변수
+      let previousData = {};
+
+      if (data) {
+        if (
+          !isButtonClicked &&
+          JSON.stringify(previousData) !== JSON.stringify(data)
+        ) {
+          sound.play(); // 소리 재생
+        }
+
+        for (const orderId in data) {
+          if (data.hasOwnProperty(orderId)) {
+            const orderItems = data[orderId]; // 각각의 주문 데이터 (배열)
+            let tDstr = ``;
+            let isComplete = false;
+
+            orderItems.forEach((orderItem, index) => {
+              if (orderItem.complete) {
+                isComplete = true;
+                sellPrice += orderItem.money * orderItem.count;
+              }
+
+              // Add data attributes to store orderId and index of the order item
+              tDstr += `
+                    <tr>
+                        <td style="width: 100px">
+                            <img
+                            style="width: 100px; height: 100px"
+                            src="/images/menu/${typeValue}/${orderItem.name}.jpg"
+                            alt="${orderItem.name}"
+                            />
+                        </td>
+                        <td class="text-center h-100 align-middle w-75">${orderItem.name}</td>
+                        <td class="text-center align-middle">${orderItem.count}</td>
+                        <td class="text-center align-middle">
+                            <div style="font-size:12px; width:70px" class="btn btn-sm btn-danger delete-btn" 
+                            data-order-id="${orderId}" data-item-index="${index}">주문취소</div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            menuNumber++;
+
+            if (!isComplete) {
+
+              if(orderItems[0]){
+                let str = `
+                    <div class="text-center mb-3">
+                      주문번호 : <span class="order-num 1">${orderItems[0].number}</span>
+                      <table class="table">
+                          <thead>
+                              <tr>
+                                <td></td>
+                                <td class="text-center">메뉴</td>
+                                <td style="min-width:100px" class="text-center">수량</td>
+                                <td class="text-center"></td>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              ${tDstr}
+                          </tbody>
+                      </table>
+                      <div class="btn_wrap text-end">
+                      <div data-num=${orderId} class="complete_btn ms-auto">완료</div>
+                      </div>
+                  </div>
+                `;
+
+                $(".liq_order").prepend(str);
+              }
+              
+             
+
+              
+            } else {
+              $(".total_price").html(addComma(sellPrice));
+            }
+          }
+        }
+
+        previousData = data;
+      } else {
+        console.log("주문 데이터가 없습니다.");
+      }
+
+      isButtonClicked = false;
+    });
+
+    $(document).on("click", ".delete-btn", function () {
+      const orderId = $(this).data("order-id"); // 주문 ID 가져오기
+      const itemIndex = $(this).data("item-index"); // 주문 항목의 인덱스 가져오기
+
+      // SweetAlert을 통해 삭제 확인
+      Swal.fire({
+        title: "해당 항목을 삭제하시겠습니까?",
+        text: "삭제 후에는 되돌릴 수 없습니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "확인",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Firebase에서 해당 주문 항목 삭제
+          const itemRef = ref(
+            database,
+            `${typeValue}/` + orderId + "/" + itemIndex
+          );
+          remove(itemRef)
+            .then(() => {
+              Swal.fire("삭제되었습니다.", "", "success");
+              // 필요하면 페이지 새로고침 또는 리스트 갱신
+              // location.reload(); // 주석 해제하면 새로고침 가능
+            })
+            .catch((error) => {
+              console.error("삭제 실패: ", error);
+              Swal.fire("삭제에 실패했습니다.", "", "error");
+            });
+        }
+      });
+    });
+
+    $(document).on("click", ".complete_btn", function () {
+      const orderId = $(this).data("num"); // 클릭된 버튼에서 orderId를 가져옴
+
+      // 버튼이 클릭되었음을 기록
+      isButtonClicked = true;
+      // Firebase에서 해당 주문 데이터를 업데이트
+      const orderRef = ref(database, `${typeValue}/` + orderId);
+      Swal.fire({
+        title: "완료 하시겠습니까?",
+        confirmButtonText: "확인",
+      }).then((result) => {
+        if (result.value) {
+          get(orderRef)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                const orderItems = snapshot.val(); // 주문 아이템 배열
+
+                // 각 아이템의 complete 필드를 true로 설정
+                orderItems.forEach((orderItem, index) => {
+                  orderItems[index].complete = true;
+                });
+
+                // 업데이트된 주문 데이터를 Firebase에 저장
+                set(orderRef, orderItems)
+                  .then(() => {
+                    alert("주문이 완료 처리되었습니다.");
+                    //location.reload(); // 페이지를 새로고침하여 변경 사항을 반영
+                  })
+                  .catch((error) => {
+                    console.error("주문 완료 처리 실패: ", error);
+                    alert("주문 완료 처리에 실패했습니다.");
+                  });
+              } else {
+                console.log("해당 주문이 존재하지 않습니다.");
+              }
+            })
+            .catch((error) => {
+              console.error("데이터 가져오기 실패: ", error);
+            });
+        }
+      });
+    });
+
+    //콤마함수
+    function addComma(number) {
+      return number.toLocaleString(); // 자동으로 천 단위마다 콤마 추가
+    }
+    function keepLastFourChars(str) {
+      if (str.length <= 4) {
+        // 문자열의 길이가 4보다 작거나 같으면 그대로 반환
+        return str;
+      } else {
+        // 문자열의 끝에서 4글자만 반환
+        return str.slice(-4);
+      }
+    }
+
+    //오디오 권한 체크
+    var AudioContext;
+    var audioContext;
+
+    window.onload = function () {
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then(() => {
+          AudioContext = window.AudioContext || window.webkitAudioContext;
+          audioContext = new AudioContext();
+        })
+        .catch((e) => {
+          console.error(`Audio permissions denied: ${e}`);
+        });
+    };
+  </script>
+</html>
