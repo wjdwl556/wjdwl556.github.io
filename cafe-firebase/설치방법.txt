@@ -1,0 +1,28 @@
+[평강교회 카페 키오스크 - Firebase 설치 방법]
+
+1) https://console.firebase.google.com 접속 > 프로젝트 추가 (이름 예: pyungang-9e989)
+2) 빌드 > Realtime Database > 데이터베이스 만들기
+   (아시아면 Singapore / asia-southeast1)
+3) 규칙에서 orders 읽기/쓰기를 허용:
+     {
+       "rules": {
+         "orders": {
+           ".read": true,
+           ".write": true
+         }
+       }
+     }
+4) 프로젝트 설정(톱니바퀴) > 내 앱 > 웹(</>) 추가 > 나오는 firebaseConfig 값을
+   public/index.html 의 firebaseConfig 에 붙여 넣기
+   (databaseURL 이 반드시 들어가야 합니다)
+5) 컴퓨터에 Node.js 설치 후 터미널에서 이 폴더로 이동해 실행:
+     npm install -g firebase-tools
+     firebase login
+     firebase use --add        (만든 프로젝트 선택)
+     firebase deploy
+6) 끝나면 주소가 나옵니다. 예) https://프로젝트이름.web.app
+     주문      https://프로젝트이름.web.app/order
+     실시간    https://프로젝트이름.web.app/live
+     관리자    https://프로젝트이름.web.app/admin   (PIN 기본 1234, index.html에서 변경)
+
+※ 현재 규칙은 누구나 주문을 읽고 쓸 수 있게 열려 있어요(교회 내부용 간단 설정).
