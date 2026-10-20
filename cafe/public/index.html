@@ -203,7 +203,7 @@ h2{font-size:20px}
 <div id="dash" hidden><h2>판매 현황</h2>
 <div class="stats"><div class="stat"><b id="s1">0원</b><span>총 매출</span></div><div class="stat"><b id="s2">0</b><span>주문 수</span></div><div class="stat"><b id="s3">0원</b><span>평균 주문액</span></div></div>
 <div class="cart"><b>메뉴별 판매</b><div id="rank"></div></div>
-<p><button class="ghost" id="reset">전체 초기화</button></p></div></section>
+<p style="display:flex;gap:8px;flex-wrap:wrap"><button class="ghost" id="xl">📥 엑셀로 저장</button><button class="ghost" id="reset">전체 초기화</button></p></div></section>
 </main><footer id="foot">감사합니다 · 평강교회</footer><div class="toast" id="toast"></div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
@@ -236,8 +236,8 @@ window.fbColl = {
 };
 window.dispatchEvent(new Event("fb-ready"));
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-  
 const MENU=[["아메리카노 (따뜻한)","☕",2000,"americano-hot","음료"],["아메리카노 (차가운)","🧊",2000,"americano-ice","음료"],["믹스커피 (따뜻한)","☕",1000,"mix-hot","음료"],["믹스커피 (차가운)","🧊",1000,"mix-ice","음료"],["뉴욕식 핫도그","🌭",3000,"hotdog","베이커리"],["빨미까레","🥨",2000,"palmier","베이커리"],["스노우볼 초코쿠키","❄️",2000,"snowball","베이커리"]];
 // 메뉴 이미지: public/images/ 폴더에 위 4번째 이름 + .png (예: americano-hot.png). 없으면 이모지로 대신 보여요.
 const imgTag=m=>`<img class="pic" src="images/${m[3]}.png" alt="${m[0]}" loading="lazy" onerror="this.outerHTML='<div class=&quot;e&quot;>${m[1]}</div>'">`;
@@ -325,5 +325,31 @@ function setTheme(t){document.documentElement.dataset.theme=t;try{localStorage.s
 document.querySelectorAll("#themeSw button").forEach(b=>b.onclick=()=>setTheme(b.dataset.t));
 let savedTheme="white";try{savedTheme=localStorage.getItem("theme")||"white"}catch(e){}
 setTheme(savedTheme==="black"?"black":"white");
+// 판매현황 엑셀 저장
+function exportExcel(){
+ if(!orders.length){alert("저장할 주문이 없어요");return}
+ const fmt=ts=>new Date(ts).toLocaleString("ko-KR",{hour12:false});
+ const detail=[["주문번호","주문시각","메뉴","수량","단가","금액","상태"]];
+ const by={};
+ orders.forEach(o=>o.items.forEach(i=>{
+  detail.push([o.num,fmt(o.ts),i.name,i.qty,i.price,i.price*i.qty,o.status==="done"?"완료":"대기"]);
+  by[i.name]=by[i.name]||{q:0,r:0};by[i.name].q+=i.qty;by[i.name].r+=i.qty*i.price}));
+ const tot=orders.reduce((a,o)=>a+o.total,0),n=orders.length;
+ const menu=[["메뉴","판매수량","매출"],...Object.entries(by).sort((a,b)=>b[1].q-a[1].q).map(([k,v])=>[k,v.q,v.r]),
+  ["합계",Object.values(by).reduce((a,v)=>a+v.q,0),tot]];
+ const sum=[["항목","값"],["총 매출",tot],["주문 수",n],["평균 주문액",Math.round(tot/n)],["저장 시각",fmt(Date.now())]];
+ const d=new Date(),ymd=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+ const name="평강카페_판매현황_"+ymd;
+ if(window.XLSX){
+  const wb=XLSX.utils.book_new();
+  [["요약",sum,[14,22]],["메뉴별 판매",menu,[26,12,14]],["주문 내역",detail,[10,22,26,8,10,12,8]]].forEach(([t,rows,w])=>{
+   const ws=XLSX.utils.aoa_to_sheet(rows);ws["!cols"]=w.map(x=>({wch:x}));XLSX.utils.book_append_sheet(wb,ws,t)});
+  XLSX.writeFile(wb,name+".xlsx");
+ }else{ // 라이브러리를 못 불러오면 CSV(엑셀에서 열림)
+  const csv="\uFEFF"+detail.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download=name+".csv";a.click();
+ }
+}
+$("#xl").onclick=exportExcel;
 render();drawCart();
 </script></body></html>
