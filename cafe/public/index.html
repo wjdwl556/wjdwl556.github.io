@@ -238,7 +238,7 @@ window.dispatchEvent(new Event("fb-ready"));
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-const MENU=[["아메리카노 (따뜻한)","☕",1500,"americano-hot","음료"],["아메리카노 (차가운)","🧊",2000,"americano-ice","음료"],["믹스커피 (따뜻한)","☕",1000,"mix-hot","음료"],["믹스커피 (차가운)","🧊",1500,"mix-ice","음료"],["뉴욕식 핫도그","🌭",4000,"hotdog","베이커리"],["빨미까레","🥨",1500,"palmier","베이커리"],["스노우볼 초코쿠키","❄️",3000,"snowball","베이커리"]];
+const MENU=[["아메리카노 (따뜻한)","☕",2000,"americano-hot","음료"],["아메리카노 (차가운)","🧊",2000,"americano-ice","음료"],["믹스커피 (따뜻한)","☕",1000,"mix-hot","음료"],["믹스커피 (차가운)","🧊",1500,"mix-ice","음료"],["뉴욕식 핫도그","🌭",3000,"hotdog","베이커리"],["빨미까레","🥨",1500,"palmier","베이커리"],["스노우볼 초코쿠키","❄️",3000,"snowball","베이커리"]];
 // 메뉴 이미지: public/images/ 폴더에 위 4번째 이름 + .png (예: americano-hot.png). 없으면 이모지로 대신 보여요.
 const imgTag=m=>`<img class="pic" src="images/${m[3]}.png" alt="${m[0]}" loading="lazy" onerror="this.outerHTML='<div class=&quot;e&quot;>${m[1]}</div>'">`;
 const won=n=>n.toLocaleString("ko-KR")+"원";
